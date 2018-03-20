@@ -33,7 +33,7 @@ public class StartMenu extends JFrame {
 		//--------Menu----------------
 		JMenu menu = new JMenu("Menu");							
 		menuBar.add(menu);
-		JMenuItem exit = new JMenuItem("Zakoñcz");
+		JMenuItem exit = new JMenuItem("Zakoncz");
 		exit.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -45,10 +45,54 @@ public class StartMenu extends JFrame {
 		centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
 		startButton = new JButton("Start");
 		startMPButton = new JButton("Start MP");    //nowe przyciski
-		exitButton = new JButton("Wyjœcie");
+		exitButton = new JButton("Wyjscie");
 		//startButton.setBounds(x,y,width,height);
+		
+		//--------startButton Listener----------
+		
+		startButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SinglePlayerGame window = new SinglePlayerGame();
+				window.setVisible(true);
+				
+			}			
+		});
+		
+		//--------startMPButton Listener----------
+		
+		startMPButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						
+					}			
+				});
+		
+		
+		//--------exitButton Listener----------
+		
+		exitButton.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}			
+		});
+		
+		
+		
+		
 		centrePanel.add(Box.createRigidArea(new Dimension(100,100))); //zmienione na 100
 		startButton.setPreferredSize(new Dimension(500, 50));
+		startMPButton.setPreferredSize(new Dimension(500, 50));
+		exitButton.setPreferredSize(new Dimension(500, 50));
 		centrePanel.add(startButton);
 		centrePanel.add(startMPButton);
 		centrePanel.add(exitButton);
