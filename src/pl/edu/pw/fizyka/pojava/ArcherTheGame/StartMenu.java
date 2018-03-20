@@ -15,7 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-// halo halo
+
 
 
 public class StartMenu extends JFrame {
@@ -56,12 +56,11 @@ public class StartMenu extends JFrame {
 		
 		startButton.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SinglePlayerGame window = new SinglePlayerGame();
-				window.setVisible(true);
-				
+				CloseMenu();
+				window.setVisible(true);				
 			}			
 		});
 		
