@@ -16,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 
-//KOMENTARZTESTTESTTEST
+//KOMENTARZTESTTESTTESTTESt
 
 public class StartMenu extends JFrame {
 	JPanel topPanel, bottomPanel, centrePanel;
