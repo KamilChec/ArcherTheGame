@@ -23,6 +23,10 @@ public class StartMenu extends JFrame {
 	JButton startButton, startMPButton, exitButton, soundOffButton;
 	JMenuBar menuBar;
 	
+	public void CloseMenu(){
+		super.dispose();
+	}
+	
 	public StartMenu() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(600,500);
@@ -65,11 +69,11 @@ public class StartMenu extends JFrame {
 		
 		startMPButton.addActionListener(new ActionListener()
 				{
-
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						
+					public void actionPerformed(ActionEvent e) {						
+						MultiPlayerGame window = new MultiPlayerGame();
+						CloseMenu();
+						window.setVisible(true);
 					}			
 				});
 		
@@ -78,11 +82,9 @@ public class StartMenu extends JFrame {
 		
 		exitButton.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				System.exit(0);				
 			}			
 		});
 		

@@ -1,8 +1,6 @@
 package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -14,49 +12,52 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class SinglePlayerGame extends JFrame {
+public class MultiPlayerGame extends JFrame {
 	
-	JLabel player1Label, SILabel;
-	JPanel topPanel, bottomPanel, centrePanel;
+	JLabel player1Label, player2Label;
+	JPanel topPanel, bottomPanel, centrePanel, shootPanel1, shootPanel2;
 	JButton exitButton, optionsButton;
-	JTextField shotStrength, shotAngle;
+	JTextField shotStrength, shotAngle, shotStrength1, shotAngle1;
 	
-	public void CloseSP(){
+	public void CloseMP(){
 		super.dispose();
 	}
 
-	public SinglePlayerGame() throws HeadlessException {
+	public MultiPlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(600,500);
 		
 		//---------Top-----------
 		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);		
 		player1Label = new JLabel("Gracz 1");
-		SILabel = new JLabel("SI");		
+		player2Label = new JLabel("Gracz 2");		
 		topPanel.add(player1Label);
-		topPanel.add(SILabel);
+		topPanel.add(player2Label);
 		
 		//--------Bottom-------
 		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
 		shotAngle = new JTextField("Kat");
 		shotStrength = new JTextField("Sila");
+		shotAngle1 = new JTextField("Kat");
+		shotStrength1 = new JTextField("Sila");
 		optionsButton = new JButton("Opcje");
-		exitButton = new JButton("Wyjscie");				
+		exitButton = new JButton("Wyjscie");
+		
 		exitButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				StartMenu window = new StartMenu();
-				CloseSP();
-				window.setVisible(true);
-				
+				CloseMP();
+				window.setVisible(true);				
 			}			
 		});
 		bottomPanel.add(shotAngle);
-		bottomPanel.add(shotStrength);
+		bottomPanel.add(shotStrength);		
 		bottomPanel.add(optionsButton);
 		bottomPanel.add(exitButton);
-		
+		bottomPanel.add(shotAngle1);
+		bottomPanel.add(shotStrength1);
 	}
 
 	
