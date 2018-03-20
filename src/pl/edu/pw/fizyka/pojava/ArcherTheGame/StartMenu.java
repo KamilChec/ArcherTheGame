@@ -16,11 +16,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 
-//KOMENTARZTESTTESTTESTTESt
+
 
 public class StartMenu extends JFrame {
 	JPanel topPanel, bottomPanel, centrePanel;
-	JButton startButton, soundOffButton;
+	JButton startButton, startMPButton, exitButton, soundOffButton;
 	JMenuBar menuBar;
 	
 	public StartMenu() throws HeadlessException {
@@ -33,7 +33,7 @@ public class StartMenu extends JFrame {
 		//--------Menu----------------
 		JMenu menu = new JMenu("Menu");							
 		menuBar.add(menu);
-		JMenuItem exit = new JMenuItem("ZakoÅ„cz");
+		JMenuItem exit = new JMenuItem("Zakoñcz");
 		exit.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -44,10 +44,14 @@ public class StartMenu extends JFrame {
 		//-------Centre---------------
 		centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
 		startButton = new JButton("Start");
+		startMPButton = new JButton("Start MP");    //nowe przyciski
+		exitButton = new JButton("Wyjœcie");
 		//startButton.setBounds(x,y,width,height);
-		centrePanel.add(Box.createRigidArea(new Dimension(0,100)));
+		centrePanel.add(Box.createRigidArea(new Dimension(100,100))); //zmienione na 100
 		startButton.setPreferredSize(new Dimension(500, 50));
 		centrePanel.add(startButton);
+		centrePanel.add(startMPButton);
+		centrePanel.add(exitButton);
 	}
 	public static void main(String[] args) {
 		StartMenu interface1 = new StartMenu();
