@@ -2,12 +2,15 @@ package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +19,7 @@ import javax.swing.JTextField;
 
 public class SinglePlayerGame extends JFrame {
 	
-	JLabel player1Label, SILabel;
+	JLabel player1Label, sILabel, vsLabel;
 	JPanel topPanel, bottomPanel, centrePanel;
 	JButton exitButton, optionsButton;
 	JTextField shotStrength, shotAngle;
@@ -27,21 +30,36 @@ public class SinglePlayerGame extends JFrame {
 
 	public SinglePlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(600,500);
+		this.setSize(800,600);
+
 		
 		//---------Top-----------
-		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);		
+		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);
+		topPanel.setLayout(new FlowLayout());
 		player1Label = new JLabel("Gracz 1");
-		SILabel = new JLabel("SI");		
+		player1Label.setFont(new Font("Serif", Font.PLAIN, 30));
 		topPanel.add(player1Label);
-		topPanel.add(SILabel);
+		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
+		vsLabel = new JLabel("VS");
+		vsLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+		topPanel.add(vsLabel);
+		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
+		sILabel = new JLabel("SI");	
+		sILabel.setFont(new Font("Serif", Font.PLAIN, 30));
+		topPanel.add(sILabel);
 		
 		//--------Bottom-------
 		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
+		bottomPanel.setLayout(new FlowLayout());
 		shotAngle = new JTextField("Kat");
 		shotStrength = new JTextField("Sila");
+		bottomPanel.add(shotAngle);
+		bottomPanel.add(shotStrength);
+		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
 		optionsButton = new JButton("Opcje");
-		exitButton = new JButton("Wyjscie");				
+		exitButton = new JButton("Wyjscie");
+		bottomPanel.add(optionsButton);
+		bottomPanel.add(exitButton);
 		exitButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -52,8 +70,6 @@ public class SinglePlayerGame extends JFrame {
 				
 			}			
 		});
-		bottomPanel.add(shotAngle);
-		bottomPanel.add(shotStrength);
 		bottomPanel.add(optionsButton);
 		bottomPanel.add(exitButton);
 		

@@ -1,13 +1,13 @@
 package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
+ 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class BackgroundFiller extends JPanel {
@@ -17,8 +17,7 @@ public class BackgroundFiller extends JPanel {
     public BackgroundFiller() {
         super();
         
-        // Plik umieszczony w podpakiecie "obrazki"
-        URL resource = getClass().getResource("file:///Users/skamander/git/ArcherTheGame/src/resource/images/menuBackground.jpg");        
+        URL resource = getClass().getResource("images/bard-the-bowman.jpg");        
         try {
             image = ImageIO.read(resource);
         } catch (IOException e) {
@@ -33,10 +32,8 @@ public class BackgroundFiller extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(image, 0, 0, this);
+        g2d.drawImage(image, 0, 0, null);
        
-        // SKALOWANIE WKLEJANEGO OBRAZKA:
-        //g2d.drawImage(image, 50, 50, image.getWidth()/3, image.getHeight()/3, this);
     }
 }
 
