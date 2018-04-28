@@ -17,12 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class SinglePlayerGame extends JFrame {
+public class SinglePlayerGame extends JFrame{
 	
 	JLabel player1Label, sILabel, vsLabel;
-	JPanel topPanel, bottomPanel, centrePanel;
+	JPanel topPanel, bottomPanel;
+	PlayArea centrePanel;
 	JButton exitButton, optionsButton;
 	JTextField shotStrength, shotAngle;
+	static int temp=1;
 	
 	public void CloseSP(){
 		super.dispose();
@@ -30,7 +32,7 @@ public class SinglePlayerGame extends JFrame {
 
 	public SinglePlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(800,600);
+		this.setSize(800,800);
 
 		
 		//---------Top-----------
@@ -51,8 +53,8 @@ public class SinglePlayerGame extends JFrame {
 		//--------Bottom-------
 		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
 		bottomPanel.setLayout(new FlowLayout());
-		shotAngle = new JTextField("Kat");
-		shotStrength = new JTextField("Sila");
+		shotAngle = new JTextField("45");
+		shotStrength = new JTextField("100");
 		bottomPanel.add(shotAngle);
 		bottomPanel.add(shotStrength);
 		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
@@ -70,11 +72,42 @@ public class SinglePlayerGame extends JFrame {
 				
 			}			
 		});
+		
+		//temp
+		optionsButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centrePanel.v0=Integer.parseInt(shotStrength.getText());
+				centrePanel.alpha=Integer.parseInt(shotAngle.getText());
+				if(temp==1)
+				{
+					Thread gamethread = new Thread(centrePanel);
+					gamethread.start();
+					temp++;
+				}
+				else if(temp==2)
+				{
+					Thread gamethread1 = new Thread(centrePanel);
+					gamethread1.start();
+				}
+				
+				
+				
+				
+				//Thread gamethread = new Thread(centrePanel);
+				//gamethread.start();				
+			}			
+		});
+		//temp*
 		bottomPanel.add(optionsButton);
 		bottomPanel.add(exitButton);
 		
+		//------------Centre---
+		this.add(centrePanel = new PlayArea(), BorderLayout.CENTER);
+		centrePanel.setBackground(Color.WHITE);
+		centrePanel.setSize(600, 600);
+		
 	}
-
 	
-
 }

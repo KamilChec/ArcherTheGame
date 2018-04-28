@@ -21,9 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
-
-
+import javax.swing.SwingUtilities;
 
 
 
@@ -32,6 +30,7 @@ public class StartMenu extends JFrame {
 	JButton startButton, startMPButton, exitButton, soundOffButton;
 	JMenuBar menuBar;
 	JLabel heading;
+	static SinglePlayerGame window;
 	
 	public void CloseMenu(){
 		super.dispose();
@@ -97,7 +96,7 @@ public class StartMenu extends JFrame {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SinglePlayerGame window = new SinglePlayerGame();
+				window = new SinglePlayerGame();
 				CloseMenu();
 				window.setVisible(true);				
 			}			
@@ -125,15 +124,12 @@ public class StartMenu extends JFrame {
 				System.exit(0);				
 			}			
 		});
-		
-
-
 	}
 	public static void main(String[] args) {
 		StartMenu interface1 = new StartMenu();
 		interface1.setTitle("Archer the game");
 		interface1.setVisible(true);
 
-	}
+	}	
 
 }
