@@ -24,9 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 public class StartMenu extends JFrame {
 	Dimension dimension;
-	AudioPlayer bgMusic;
+	AudioPlayer bgMusic, clickSound;
 	
 	BufferedImage backgroundImage , arrowImage;
 	Image bgGif;
@@ -46,9 +47,8 @@ public class StartMenu extends JFrame {
 		setLayout(new BorderLayout());
 		setSize(dimension = new Dimension(600, 600));
 		setResizable(false);
-		setBackground(Color.WHITE);
-		String musicName = "/audio/start_music.mp3";
-		bgMusic = new AudioPlayer(musicName);
+		bgMusic = new AudioPlayer("/audio/start_music.mp3");
+		clickSound = new AudioPlayer("/audio/arrowHit.mp3");
 		bgMusic.play();
 
 		
@@ -57,20 +57,25 @@ public class StartMenu extends JFrame {
 				setSize(dimension);
 				Graphics2D g2d = (Graphics2D) g;
 				try {
-					backgroundImage = ImageIO.read(getClass().getResource("/images/background.jpg"));
+					backgroundImage = ImageIO.read(getClass().getResource("/images/bg.png"));
 					arrowImage = ImageIO.read(getClass().getResource("/images/arrow.png"));
+//					ImageIcon upload = new ImageIcon(getClass().getResource("/images/bgGifv2.gif"));
+					ImageIcon upload = new ImageIcon(getClass().getResource("/images/background2.gif"));
+					bgGif = upload.getImage();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				g2d.drawImage(backgroundImage, 0, 0, dimension.width, dimension.height,this);
-				if(drawLine1 == true) g2d.drawImage(arrowImage, 400, 125, 150, 90, this);
-				if(drawLine2 == true) g2d.drawImage(arrowImage, 430, 215, 150, 90, this);
-				if(drawLine3 == true) g2d.drawImage(arrowImage, 220, 300, 150, 90, this);
+//				g2d.drawImage(backgroundImage, 0, 0, dimension.width, dimension.height,this);
+//				g2d.drawImage(bgGif, 300, 120, 296, 325,this); // 270 130
+				g2d.drawImage(bgGif, 0, 0, dimension.width, dimension.height,this);
+				if(drawLine1 == true) g2d.drawImage(arrowImage, 300, 125, 150, 90, this);
+				if(drawLine2 == true) g2d.drawImage(arrowImage, 270, 215, 150, 90, this);
+				if(drawLine3 == true) g2d.drawImage(arrowImage, 180, 300, 150, 90, this);
 				repaint();
 			}
 		});
 		menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.PAGE_AXIS));
-		
+		menuPanel.setBackground(Color.WHITE);
 		heading = new JLabel("Archer the Game");
 		try {
 			loadFont("/fonts/font1.ttf");
@@ -83,11 +88,11 @@ public class StartMenu extends JFrame {
 			e.printStackTrace();
 		}
 		heading.setFont(new Font("101! Block LetterZ", Font.BOLD, 40));
-		heading.setForeground(Color.red);
-		startButton = new JButton("Gra jednoosobowa");
+//		heading.setForeground(Color.red);
+		startButton = new JButton("Single player");
 		startButton.setFont(new Font("MAKEN", Font.BOLD, 30));
 		startButton.setBorderPainted(false);
-		startButton.setForeground(Color.blue);
+//		startButton.setForeground(Color.blue);
 		startButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent event) {
 				drawLine1 = true;
@@ -96,7 +101,18 @@ public class StartMenu extends JFrame {
 				drawLine1 = false;
 			}
 		});
-		startMPButton = new JButton("Gracz kontra gracz");
+		startButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bgMusic.close();
+				clickSound.play();
+				
+			}
+			
+			
+		});
+		startMPButton = new JButton("Mulitplayer");
 		startMPButton.setFont(new Font("MAKEN", Font.BOLD, 30));
 		startMPButton.setBorderPainted(false);
 		startMPButton.addMouseListener(new MouseAdapter() {
@@ -107,11 +123,20 @@ public class StartMenu extends JFrame {
 				drawLine2 = false;
 			}
 		});
-		startMPButton.setForeground(Color.blue);
-		exitButton = new JButton("Wyjscie");
+		startMPButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clickSound.play();
+				
+			}
+			
+		});
+//		startMPButton.setForeground(Color.blue);
+		exitButton = new JButton("Exit");
 		exitButton.setFont(new Font("MAKEN", Font.BOLD, 30));
 		exitButton.setBorderPainted(false);
-		exitButton.setForeground(Color.blue);
+//		exitButton.setForeground(Color.blue);
 		exitButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent event) {
 				drawLine3 = true;
@@ -124,8 +149,9 @@ public class StartMenu extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
+			
 		});
 		
 		menuPanel.add(heading);
