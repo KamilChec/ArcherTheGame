@@ -5,12 +5,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,7 +31,7 @@ public class SinglePlayerGame extends JFrame{
 	PlayArea centrePanel;
 	JButton exitButton, optionsButton;
 	JTextField shotStrength, shotAngle;
-	static int temp=1;
+	static int temp=1;	
 	
 	public void CloseSP(){
 		super.dispose();
@@ -90,11 +97,7 @@ public class SinglePlayerGame extends JFrame{
 				{
 					Thread gamethread1 = new Thread(centrePanel);
 					gamethread1.start();
-				}
-				
-				
-				
-				
+				}				
 				//Thread gamethread = new Thread(centrePanel);
 				//gamethread.start();				
 			}			
@@ -107,6 +110,9 @@ public class SinglePlayerGame extends JFrame{
 		this.add(centrePanel = new PlayArea(), BorderLayout.CENTER);
 		centrePanel.setBackground(Color.WHITE);
 		centrePanel.setSize(600, 600);
+		
+		
+		
 		
 	}
 	

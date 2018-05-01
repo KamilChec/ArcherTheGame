@@ -75,7 +75,8 @@ public class PlayArea extends JPanel implements Runnable {
 	    			beta = gamma+beta;		    	
 	    		}	    	
 	    	}
-	    }   
+	    }
+	    
     }
 
 	@Override

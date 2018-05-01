@@ -41,6 +41,10 @@ public class StartMenu extends JFrame {
 	Boolean drawLine2 = false;
 	Boolean drawLine3= false;
 	
+	public void CloseMenu()
+	{
+		super.dispose();
+	}
 	
 	public StartMenu() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -107,7 +111,9 @@ public class StartMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				bgMusic.close();
 				clickSound.play();
-				
+				SinglePlayerGame window = new SinglePlayerGame();
+				CloseMenu();
+				window.setVisible(true);
 			}
 			
 			
@@ -128,7 +134,9 @@ public class StartMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clickSound.play();
-				
+				MultiPlayerGame window = new MultiPlayerGame();
+				CloseMenu();
+				window.setVisible(true);
 			}
 			
 		});
