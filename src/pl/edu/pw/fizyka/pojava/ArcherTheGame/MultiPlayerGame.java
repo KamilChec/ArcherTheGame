@@ -82,7 +82,7 @@ public class MultiPlayerGame extends JFrame {
 		bottomPanel.add(shotStrength1);
 		
 		//------------Centre---
-		this.add(centrePanel = new PlayArea(), BorderLayout.CENTER);
+//		this.add(centrePanel = new PlayArea(), BorderLayout.CENTER);
 		centrePanel.setBackground(Color.WHITE);
 		centrePanel.setSize(600, 600);
 	}

@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 
 public class SinglePlayerGame extends JFrame{
 	
-	JLabel player1Label, sILabel, vsLabel;
+	JLabel player1Label, sILabel, vsLabel, angleLabel1, angleLabel2, forceLabel1, forceLabel2  ;
 	JPanel topPanel, bottomPanel;
 	PlayArea centrePanel;
 	JButton exitButton, optionsButton;
@@ -62,8 +62,12 @@ public class SinglePlayerGame extends JFrame{
 		bottomPanel.setLayout(new FlowLayout());
 		shotAngle = new JTextField("45");
 		shotStrength = new JTextField("100");
+		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
 		bottomPanel.add(shotAngle);
+		bottomPanel.add(angleLabel2 = new JLabel("°"));
+		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
 		bottomPanel.add(shotStrength);
+		bottomPanel.add(forceLabel2 = new JLabel("%"));
 		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
 		optionsButton = new JButton("Opcje");
 		exitButton = new JButton("Wyjscie");
@@ -76,7 +80,7 @@ public class SinglePlayerGame extends JFrame{
 				StartMenu window = new StartMenu();
 				CloseSP();
 				window.setVisible(true);
-				
+
 			}			
 		});
 		
@@ -107,7 +111,7 @@ public class SinglePlayerGame extends JFrame{
 		bottomPanel.add(exitButton);
 		
 		//------------Centre---
-		this.add(centrePanel = new PlayArea(), BorderLayout.CENTER);
+		this.add(centrePanel = new PlayArea(shotStrength, shotAngle), BorderLayout.CENTER);
 		centrePanel.setBackground(Color.WHITE);
 		centrePanel.setSize(600, 600);
 		

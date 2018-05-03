@@ -41,8 +41,7 @@ public class StartMenu extends JFrame {
 	Boolean drawLine2 = false;
 	Boolean drawLine3= false;
 	
-	public void CloseMenu()
-	{
+	public void CloseMenu() {
 		super.dispose();
 	}
 	
@@ -51,6 +50,7 @@ public class StartMenu extends JFrame {
 		setLayout(new BorderLayout());
 		setSize(dimension = new Dimension(600, 600));
 		setResizable(false);
+		setLocationRelativeTo(null);
 		bgMusic = new AudioPlayer("/audio/start_music.mp3");
 		clickSound = new AudioPlayer("/audio/arrowHit.mp3");
 		bgMusic.play();
