@@ -42,15 +42,9 @@ public class PlayArea extends JPanel implements Runnable {
 				repaint();
 			}
 			public void mouseReleased(MouseEvent e) {
-//				alpha = getAlpha();
-//				force = getForce();
-//				shotAngle.setText(String.valueOf(getAlpha()));
-//				shotStrength.setText(String.valueOf(forceToPower(force)));
-				System.out.println("Force: " + String.valueOf(Math.round(getForce())));    // możesz sprawdzić jak działa potem usunac
-				System.out.println("Angle: " + String.valueOf(Math.round(getAlpha())));
-				System.out.println("Power: " + forceToPower(force));
-				
 				whenDraw = false;
+				shotAngle.setText("000");
+				shotStrength.setText("000");
 				repaint();
 			}
 		});

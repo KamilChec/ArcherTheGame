@@ -40,6 +40,8 @@ public class SinglePlayerGame extends JFrame{
 	public SinglePlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(600,600);
+		setResizable(false);
+		setLocationRelativeTo(null);
 
 		
 		//---------Top-----------
