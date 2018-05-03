@@ -1,135 +1,192 @@
 package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.HeadlessException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 
 
 public class StartMenu extends JFrame {
-	JPanel topPanel, bottomPanel, centrePanel;
-	JButton startButton, startMPButton, exitButton, soundOffButton;
-	JMenuBar menuBar;
-	JLabel heading;
-	static SinglePlayerGame window;
+	Dimension dimension;
+	AudioPlayer bgMusic, clickSound;
 	
-	public void CloseMenu(){
+	BufferedImage backgroundImage , arrowImage;
+	Image bgGif;
+	Font labelFont;
+	
+	JLabel heading;
+	JButton startButton, startMPButton, exitButton, soundOffButton;
+	JPanel menuPanel;
+	
+	Boolean drawLine1 = false;
+	Boolean drawLine2 = false;
+	Boolean drawLine3= false;
+	
+	public void CloseMenu()
+	{
 		super.dispose();
 	}
 	
-	public StartMenu() throws HeadlessException {
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(800,600);
-		BackgroundFiller obrazek = new BackgroundFiller();
-		setSize(obrazek.getPreferredSize());
-		//this.add(obrazek); 
-		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);
-		this.add(centrePanel = new JPanel(), BorderLayout.CENTER);
-		this.setJMenuBar(menuBar = new JMenuBar());
-		//centrePanel.add(obrazek);
-		
-		//--------Menu----------------
-		JMenu menu = new JMenu("Menu");							
-		menuBar.add(menu);
-		JMenuItem exit = new JMenuItem("Zakoncz");
-		exit.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			System.exit(0); }
-		});
-		menu.add(exit);
-		
-		//-------Centre---------------
-		centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
-		//centrePanel.setMaximumSize(new Dimension(600, 500));
+	public StartMenu() {
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setSize(dimension = new Dimension(600, 600));
+		setResizable(false);
+		bgMusic = new AudioPlayer("/audio/start_music.mp3");
+		clickSound = new AudioPlayer("/audio/arrowHit.mp3");
+		bgMusic.play();
 
-		startButton = new JButton("Gra jednoosobowa");
-		startMPButton = new JButton("Gracz kontra gracz");    
-		exitButton = new JButton("Wyjscie");
+		
+		add(menuPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				setSize(dimension);
+				Graphics2D g2d = (Graphics2D) g;
+				try {
+					backgroundImage = ImageIO.read(getClass().getResource("/images/bg.png"));
+					arrowImage = ImageIO.read(getClass().getResource("/images/arrow.png"));
+//					ImageIcon upload = new ImageIcon(getClass().getResource("/images/bgGifv2.gif"));
+					ImageIcon upload = new ImageIcon(getClass().getResource("/images/background2.gif"));
+					bgGif = upload.getImage();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+//				g2d.drawImage(backgroundImage, 0, 0, dimension.width, dimension.height,this);
+//				g2d.drawImage(bgGif, 300, 120, 296, 325,this); // 270 130
+				g2d.drawImage(bgGif, 0, 0, dimension.width, dimension.height,this);
+				if(drawLine1 == true) g2d.drawImage(arrowImage, 300, 125, 150, 90, this);
+				if(drawLine2 == true) g2d.drawImage(arrowImage, 270, 215, 150, 90, this);
+				if(drawLine3 == true) g2d.drawImage(arrowImage, 180, 300, 150, 90, this);
+				repaint();
+			}
+		});
+		menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.PAGE_AXIS));
+		menuPanel.setBackground(Color.WHITE);
 		heading = new JLabel("Archer the Game");
-		heading.setFont(new Font("Serif", Font.PLAIN, 40));
-		centrePanel.add(heading);
-		centrePanel.add(Box.createRigidArea(new Dimension(100,100))); 
+		try {
+			loadFont("/fonts/font1.ttf");
+			loadFont("/fonts/font2.ttf");
+			loadFont("/fonts/font3.ttf");
+			loadFont("/fonts/font4.ttf");
+			loadFont("/fonts/font5.ttf");
+			loadFont("/fonts/font6.ttf");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		heading.setFont(new Font("101! Block LetterZ", Font.BOLD, 40));
+//		heading.setForeground(Color.red);
+		startButton = new JButton("Single player");
+		startButton.setFont(new Font("MAKEN", Font.BOLD, 30));
+		startButton.setBorderPainted(false);
+//		startButton.setForeground(Color.blue);
+		startButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent event) {
+				drawLine1 = true;
+			}
+			public void mouseExited(MouseEvent event) {
+				drawLine1 = false;
+			}
+		});
+		startButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bgMusic.close();
+				clickSound.play();
+				SinglePlayerGame window = new SinglePlayerGame();
+				CloseMenu();
+				window.setVisible(true);
+			}
+			
+			
+		});
+		startMPButton = new JButton("Mulitplayer");
+		startMPButton.setFont(new Font("MAKEN", Font.BOLD, 30));
+		startMPButton.setBorderPainted(false);
+		startMPButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent event) {
+				drawLine2 = true;
+			}
+			public void mouseExited(MouseEvent event) {
+				drawLine2 = false;
+			}
+		});
+		startMPButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clickSound.play();
+				MultiPlayerGame window = new MultiPlayerGame();
+				CloseMenu();
+				window.setVisible(true);
+			}
+			
+		});
+//		startMPButton.setForeground(Color.blue);
+		exitButton = new JButton("Exit");
+		exitButton.setFont(new Font("MAKEN", Font.BOLD, 30));
+		exitButton.setBorderPainted(false);
+//		exitButton.setForeground(Color.blue);
+		exitButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent event) {
+				drawLine3 = true;
+			}
+			public void mouseExited(MouseEvent event) {
+				drawLine3 = false;
+			}
+		});
+		exitButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+			
+		});
+		
+		menuPanel.add(heading);
+		menuPanel.add(Box.createRigidArea(new Dimension(100,100))); 
 		startButton.setPreferredSize(new Dimension(100, 100));
 		startMPButton.setPreferredSize(new Dimension(500, 50));
 		exitButton.setPreferredSize(new Dimension(500, 50));
-		centrePanel.add(startButton);
-		centrePanel.add(Box.createRigidArea(new Dimension(100,50)));
-		centrePanel.add(startMPButton);
-		centrePanel.add(Box.createRigidArea(new Dimension(100,50)));
-		centrePanel.add(exitButton);
-		 
-		
-		//--------Top---------------------
-		topPanel.setLayout(new FlowLayout());
-		//topPanel.setMaximumSize(new Dimension(600, 100));
-		soundOffButton = new JButton();
-		soundOffButton.setIcon(new ImageIcon("images/wycisz.png"));
-
-		//soundOffButton.setBounds(600,0 ,100, 40); 
-		
-		soundOffButton.setPreferredSize(new Dimension(40, 40));
-		topPanel.add(Box.createRigidArea(new Dimension(600,0)));
-		topPanel.add(soundOffButton);		
-		//--------startButton Listener----------
-		
-		startButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				window = new SinglePlayerGame();
-				CloseMenu();
-				window.setVisible(true);				
-			}			
-		});
-		
-		//--------startMPButton Listener----------
-		
-		startMPButton.addActionListener(new ActionListener()
-				{
-					@Override
-					public void actionPerformed(ActionEvent e) {						
-						MultiPlayerGame window = new MultiPlayerGame();
-						CloseMenu();
-						window.setVisible(true);
-					}			
-				});
-		
-		
-		//--------exitButton Listener----------
-		
-		exitButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);				
-			}			
-		});
+		menuPanel.add(startButton);
+		menuPanel.add(Box.createRigidArea(new Dimension(100,50)));
+		menuPanel.add(startMPButton);
+		menuPanel.add(Box.createRigidArea(new Dimension(100,50)));
+		menuPanel.add(exitButton);
 	}
-	public static void main(String[] args) {
-		StartMenu interface1 = new StartMenu();
-		interface1.setTitle("Archer the game");
-		interface1.setVisible(true);
+	
+	public void loadFont(String name) throws Exception {
+		URL fontUrl = getClass().getResource(name);
+		Font preFont = Font.createFont(Font.TRUETYPE_FONT, fontUrl.openStream());
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(preFont);
+	}
 
-	}	
+
+	public static void main(String[] args) {
+		StartMenu menu = new StartMenu();
+		menu.setVisible(true);
+		
+
+	}
 
 }
