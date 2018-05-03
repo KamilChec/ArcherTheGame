@@ -42,12 +42,13 @@ public class PlayArea extends JPanel implements Runnable {
 				repaint();
 			}
 			public void mouseReleased(MouseEvent e) {
-				alpha = getAlpha();
-				shotAngle.setText(String.valueOf(getAlpha()));
-				shotStrength.setText(String.valueOf(forceToPower(force)));
-				System.out.println("Force: " + getForce());    // możesz sprawdzić jak działa potem usunac
-				System.out.println("Angle: " + String.valueOf(getAlpha()));
-				System.out.println("Power: " + String.valueOf(forceToPower(force)));
+//				alpha = getAlpha();
+//				force = getForce();
+//				shotAngle.setText(String.valueOf(getAlpha()));
+//				shotStrength.setText(String.valueOf(forceToPower(force)));
+				System.out.println("Force: " + String.valueOf(Math.round(getForce())));    // możesz sprawdzić jak działa potem usunac
+				System.out.println("Angle: " + String.valueOf(Math.round(getAlpha())));
+				System.out.println("Power: " + forceToPower(force));
 				
 				whenDraw = false;
 				repaint();
@@ -57,6 +58,10 @@ public class PlayArea extends JPanel implements Runnable {
 			public void mouseDragged(MouseEvent e) {
 				endPoint = new Point(e.getX(), e.getY());
 				alpha = getAlpha();
+				force = getForce();
+				shotAngle.setText(String.valueOf(Math.round(getAlpha())));
+				shotStrength.setText(String.valueOf(forceToPower(force)));
+				
 				repaint();
 			}
 		});
@@ -88,7 +93,7 @@ public class PlayArea extends JPanel implements Runnable {
 	}
 	public int forceToPower(double force) {
 		if(force > 50) {
-			return (int) force*(100/150);
+			return (int) (force*(100f/150));
 		} else {
 			return 0;
 		}

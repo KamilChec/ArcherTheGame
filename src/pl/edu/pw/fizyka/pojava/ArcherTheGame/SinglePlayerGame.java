@@ -39,7 +39,7 @@ public class SinglePlayerGame extends JFrame{
 
 	public SinglePlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(800,800);
+		this.setSize(600,600);
 
 		
 		//---------Top-----------
@@ -60,8 +60,8 @@ public class SinglePlayerGame extends JFrame{
 		//--------Bottom-------
 		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
 		bottomPanel.setLayout(new FlowLayout());
-		shotAngle = new JTextField("45");
-		shotStrength = new JTextField("100");
+		shotAngle = new JTextField("000");
+		shotStrength = new JTextField("000");
 		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
 		bottomPanel.add(shotAngle);
 		bottomPanel.add(angleLabel2 = new JLabel("°"));
@@ -111,9 +111,9 @@ public class SinglePlayerGame extends JFrame{
 		bottomPanel.add(exitButton);
 		
 		//------------Centre---
-		this.add(centrePanel = new PlayArea(shotStrength, shotAngle), BorderLayout.CENTER);
+		this.add(centrePanel = new PlayArea(shotAngle, shotStrength), BorderLayout.CENTER);
 		centrePanel.setBackground(Color.WHITE);
-		centrePanel.setSize(600, 600);
+		centrePanel.setSize(400, 400);
 		
 		
 		
