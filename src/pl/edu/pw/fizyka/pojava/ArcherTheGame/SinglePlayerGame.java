@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -31,7 +33,9 @@ public class SinglePlayerGame extends JFrame{
 	PlayArea centrePanel;
 	JButton exitButton, optionsButton;
 	JTextField shotStrength, shotAngle;
-	static int temp=1;	
+	static int temp=1;
+	
+	static Image im;
 	
 	public void CloseSP(){
 		super.dispose();
@@ -91,31 +95,42 @@ public class SinglePlayerGame extends JFrame{
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				centrePanel.v0=Integer.parseInt(shotStrength.getText());
-				centrePanel.alpha=Integer.parseInt(shotAngle.getText());
-				if(temp==1)
-				{
-					Thread gamethread = new Thread(centrePanel);
-					gamethread.start();
-					temp++;
-				}
-				else if(temp==2)
-				{
-					Thread gamethread1 = new Thread(centrePanel);
-					gamethread1.start();
-				}				
-				//Thread gamethread = new Thread(centrePanel);
-				//gamethread.start();				
+				//centrePanel.v0=Integer.parseInt(shotStrength.getText());
+				//centrePanel.alpha=Integer.parseInt(shotAngle.getText());
+				
+				centrePanel.cons=1;
+				centrePanel.xPos = 0;
+				centrePanel.yPos = 400;
+				
+				Thread gamethread = new Thread(centrePanel);
+				gamethread.start();
 			}			
 		});
 		//temp*
 		bottomPanel.add(optionsButton);
 		bottomPanel.add(exitButton);
 		
-		//------------Centre---
-		this.add(centrePanel = new PlayArea(shotAngle, shotStrength), BorderLayout.CENTER);
-		centrePanel.setBackground(Color.WHITE);
-		centrePanel.setSize(400, 400);
+		//------------Centre---//
+		URL resource = getClass().getResource("/images/1.PNG");
+		try {
+			 im = ImageIO.read(resource);
+			} 
+		catch (IOException e) {
+			 System.err.println("Blad odczytu obrazka");
+			 e.printStackTrace();
+			}
+		
+		
+		PlayArea centrePanel = new PlayArea(im, PlayArea.SCALED, 1.0f, 0.5f, shotAngle, shotStrength);
+		GradientPaint paint = new GradientPaint(0, 0, Color.WHITE, 600, 0, Color.WHITE);
+		centrePanel.setPaint(paint);
+		
+		this.add(centrePanel);
+		
+		
+		//this.add(centrePanel = new PlayArea(shotAngle, shotStrength), BorderLayout.CENTER);
+		//centrePanel.setBackground(Color.WHITE);
+		//centrePanel.setSize(400, 400);
 		
 		
 		
