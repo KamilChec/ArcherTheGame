@@ -30,6 +30,7 @@ public class PlayArea extends JPanel implements Runnable {
 
 	public PlayArea(Image image, int style, float alignmentX, float alignmentY, JTextField shotAngle, JTextField shotStrength)
 	{
+		
 		setImage( image );
 		setStyle( style );
 		setImageAlignmentX( alignmentX );
@@ -86,6 +87,7 @@ public class PlayArea extends JPanel implements Runnable {
 				repaint();
 			}
 		});
+		
 		
 	}
 	
@@ -223,74 +225,8 @@ public class PlayArea extends JPanel implements Runnable {
 				}
 			}
 		}
-
-		
-		 //  Add custom painting
+	
 		 
-		/*@Override
-		protected void paintComponent(Graphics g)
-		{
-			super.paintComponent(g);
-
-			//  Invoke the painter for the background
-
-			if (painter != null)
-			{
-				Dimension d = getSize();
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setPaint(painter);
-				g2.fill( new Rectangle(0, 0, d.width, d.height) );
-			}
-
-			//  Draw the image
-
-			if (image == null ) return;
-
-			switch (style)
-			{
-				case SCALED :
-					drawScaled(g);
-					break;
-
-				case TILED  :
-					drawTiled(g);
-					break;
-
-				case ACTUAL :
-					drawActual(g);
-					break;
-
-				default:
-	            	drawScaled(g);
-			}
-			 Graphics2D g2d = (Graphics2D)g;
-			    g2d.setColor(Color.BLACK);
-			    if(count==2)
-			    {
-			    	g2d.rotate(Math.toRadians(-45), xPos, yPos);
-			    	g2d.fillRect((int) xPos, (int) yPos, width, heigth);
-			    }
-			    else
-			    {
-			    if(count>10){
-			    	if(vy>0)
-			    	{	    			    	
-			    		g2d.rotate(Math.toRadians(-(alpha-tempalpha)), xPos-10, yPos);
-			    		g2d.fillRect((int) xPos, (int) yPos, width, heigth);
-			    		alpha=alpha-tempalpha;
-				    	
-			    	}
-			    	else if(vy<0)
-			    	{    				    	
-			    		g2d.rotate(Math.toRadians(-(alpha-tempalpha)), xPos-10, yPos);
-				    	g2d.fillRect((int) xPos, (int) yPos, width, heigth);
-				    	alpha = tempalpha+alpha;		    	
-			    	}	    	
-			    }
-			}
-		}*/
-
-		
 		 //  Custom painting code for drawing a SCALED image as the background
 		 
 		private void drawScaled(Graphics g)
@@ -401,6 +337,7 @@ public class PlayArea extends JPanel implements Runnable {
 		}	
 		public void paintComponent(Graphics g){ 
 			
+			
 			super.paintComponent(g);
 
 			//  Invoke the painter for the background
@@ -465,11 +402,13 @@ public class PlayArea extends JPanel implements Runnable {
 		    		}	    	
 		    	}
 		    }
-		    
+			
+			
 	    }
 
 		@Override
 		public void run() {
+			
 			beta=alpha;
 			vx=v0*Math.cos(Math.toRadians(alpha));
 	    	vy=v0*Math.sin(Math.toRadians(alpha));
@@ -493,8 +432,24 @@ public class PlayArea extends JPanel implements Runnable {
 				{
 					cons=0;
 					beta=alpha;				
-				}			
+				}
+				if(xPos>496 && xPos<520)
+				{
+					System.out.println("Kappa");					
+					if(yPos<440 && yPos>380)
+					{						
+						System.out.println("PogChamp");
+						if(yPos>-2.5*xPos+1160)
+						{
+							System.out.println("LUL");
+							cons=0;
+							beta=alpha;
+						}
+					}
+				}
 			}
+			
+			
 		}
 	
 	

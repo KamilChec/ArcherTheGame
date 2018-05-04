@@ -31,11 +31,12 @@ public class SinglePlayerGame extends JFrame{
 	JLabel player1Label, sILabel, vsLabel, angleLabel1, angleLabel2, forceLabel1, forceLabel2  ;
 	JPanel topPanel, bottomPanel;
 	PlayArea centrePanel;
-	JButton exitButton, optionsButton;
+	JButton exitButton, optionsButton, tempButton;
 	JTextField shotStrength, shotAngle;
 	static int temp=1;
-	
+	DataHolder hold;
 	static Image im;
+	OptionsWindow options;
 	
 	public void CloseSP(){
 		super.dispose();
@@ -46,6 +47,8 @@ public class SinglePlayerGame extends JFrame{
 		this.setSize(600,600);
 		setResizable(false);
 		setLocationRelativeTo(null);
+		
+		hold = new DataHolder();
 
 		
 		//---------Top-----------
@@ -63,6 +66,8 @@ public class SinglePlayerGame extends JFrame{
 		sILabel.setFont(new Font("Serif", Font.PLAIN, 30));
 		topPanel.add(sILabel);
 		
+		
+		
 		//--------Bottom-------
 		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
 		bottomPanel.setLayout(new FlowLayout());
@@ -77,6 +82,10 @@ public class SinglePlayerGame extends JFrame{
 		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
 		optionsButton = new JButton("Opcje");
 		exitButton = new JButton("Wyjscie");
+		
+		tempButton = new JButton("Strza³");
+		bottomPanel.add(tempButton);
+		
 		bottomPanel.add(optionsButton);
 		bottomPanel.add(exitButton);
 		exitButton.addActionListener(new ActionListener()
@@ -90,25 +99,17 @@ public class SinglePlayerGame extends JFrame{
 			}			
 		});
 		
-		//temp
+		
 		optionsButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//centrePanel.v0=Integer.parseInt(shotStrength.getText());
-				//centrePanel.alpha=Integer.parseInt(shotAngle.getText());
+				options = new OptionsWindow(hold);				
+				options.setVisible(true);		
 				
-				centrePanel.cons=1;
-				centrePanel.xPos = 0;
-				centrePanel.yPos = 400;
-				
-				Thread gamethread = new Thread(centrePanel);
-				gamethread.start();
 			}			
 		});
-		//temp*
-		bottomPanel.add(optionsButton);
-		bottomPanel.add(exitButton);
+			
 		
 		//------------Centre---//
 		URL resource = getClass().getResource("/images/1.PNG");
@@ -124,13 +125,31 @@ public class SinglePlayerGame extends JFrame{
 		PlayArea centrePanel = new PlayArea(im, PlayArea.SCALED, 1.0f, 0.5f, shotAngle, shotStrength);
 		GradientPaint paint = new GradientPaint(0, 0, Color.WHITE, 600, 0, Color.WHITE);
 		centrePanel.setPaint(paint);
+		centrePanel.setSize(400, 400);
 		
 		this.add(centrePanel);
 		
 		
-		//this.add(centrePanel = new PlayArea(shotAngle, shotStrength), BorderLayout.CENTER);
-		//centrePanel.setBackground(Color.WHITE);
-		//centrePanel.setSize(400, 400);
+		tempButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centrePanel.a=hold.a;
+				centrePanel.ro=hold.ro;
+				centrePanel.mass=hold.mass;
+				centrePanel.diameter=hold.diameter;
+				centrePanel.coeff=hold.coeff;
+				
+				centrePanel.cons=1;
+				centrePanel.xPos = 0;
+				centrePanel.yPos = 400;
+				
+				Thread gamethread = new Thread(centrePanel);
+				gamethread.start();			
+				
+			}			
+		});
+		
 		
 		
 		
