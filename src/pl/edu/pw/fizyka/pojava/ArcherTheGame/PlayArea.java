@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 
+
+
 public class PlayArea extends JPanel implements Runnable {
 	int cons=1;
 	static int count=1;
@@ -27,6 +29,8 @@ public class PlayArea extends JPanel implements Runnable {
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force;
 	boolean whenDraw = false;
 	Point startPoint, endPoint;
+	
+	Player player;
 
 	public PlayArea(Image image, int style, float alignmentX, float alignmentY, JTextField shotAngle, JTextField shotStrength)
 	{
@@ -47,6 +51,7 @@ public class PlayArea extends JPanel implements Runnable {
 		beta = alpha;
 		xPos = 0;
 		yPos = 500;
+		player = new Player(this);
 		
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -379,6 +384,7 @@ public class PlayArea extends JPanel implements Runnable {
 				g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 				g.drawOval(startPoint.x - 10, startPoint.y - 10, 20, 20);
 			}
+			player.prepareToShot(g2d, alpha, forceToPower(force));
 		    if(count==2)
 		    {
 		    	g2d.rotate(Math.toRadians(-45), xPos, yPos);
