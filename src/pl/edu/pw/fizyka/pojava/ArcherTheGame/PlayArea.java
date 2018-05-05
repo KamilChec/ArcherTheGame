@@ -384,6 +384,7 @@ public class PlayArea extends JPanel implements Runnable {
 				g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 				g.drawOval(startPoint.x - 10, startPoint.y - 10, 20, 20);
 			}
+			player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 			player.prepareToShot(g2d, alpha, forceToPower(force));
 		    if(count==2)
 		    {

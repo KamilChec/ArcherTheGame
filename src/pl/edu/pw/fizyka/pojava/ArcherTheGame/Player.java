@@ -55,11 +55,11 @@ public class Player {
 	public void prepareToShot(Graphics g, double angle, int power) {
 		Graphics2D g2d = (Graphics2D) g;
 		
-		if(angle > -90 && angle < -10) 		 drawPlayer(g2d, firstArea, power);
+		if(angle > -180 && angle < -10) 		 drawPlayer(g2d, firstArea, power);
 		else if(angle >= -10 && angle <= 10) drawPlayer(g2d, secondArea, power);
 		else if(angle > 10 && angle < 45)	 drawPlayer(g2d, thirdArea, power);
 		else if(angle >= 45 && angle <= 80)  drawPlayer(g2d, fourthArea, power);
-		else if(angle > 80 && angle < 120)	 drawPlayer(g2d, fifthArea, power);
+		else if(angle > 80 && angle <= 180)	 drawPlayer(g2d, fifthArea, power);
 	}
 
 	
