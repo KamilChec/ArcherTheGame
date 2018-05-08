@@ -5,14 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,6 +39,8 @@ public class SinglePlayerGame extends JFrame{
 	DataHolder hold;
 	static Image im;
 	OptionsWindow options;
+	Font maken;
+	BufferedImage arrowImage;
 	
 	public void CloseSP(){
 		super.dispose();
@@ -49,21 +53,22 @@ public class SinglePlayerGame extends JFrame{
 		setLocationRelativeTo(null);
 		
 		hold = new DataHolder();
+		maken = new Font("MAKEN", Font.BOLD, 30);
 
 		
 		//---------Top-----------
 		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);
 		topPanel.setLayout(new FlowLayout());
 		player1Label = new JLabel("Gracz 1");
-		player1Label.setFont(new Font("Serif", Font.PLAIN, 30));
+		player1Label.setFont(maken);
 		topPanel.add(player1Label);
 		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
 		vsLabel = new JLabel("VS");
-		vsLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+		vsLabel.setFont(maken);
 		topPanel.add(vsLabel);
 		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
-		sILabel = new JLabel("SI");	
-		sILabel.setFont(new Font("Serif", Font.PLAIN, 30));
+		sILabel = new JLabel("AI");	
+		sILabel.setFont(maken);
 		topPanel.add(sILabel);
 		
 		
@@ -79,13 +84,17 @@ public class SinglePlayerGame extends JFrame{
 		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
 		bottomPanel.add(shotStrength);
 		bottomPanel.add(forceLabel2 = new JLabel("%"));
-		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
-		optionsButton = new JButton("Opcje");
-		exitButton = new JButton("Wyjscie");
-		
-		tempButton = new JButton("Strza³");
+//		bottomPanel.add(Box.createRigidArea(new Dimension(10,0)));
+		optionsButton = new JButton("Option");
+		optionsButton.setFont(maken);
+		optionsButton.setBorderPainted(false);
+		exitButton = new JButton("Exit");
+		exitButton.setFont(maken);
+		exitButton.setBorderPainted(false);
+		tempButton = new JButton("Shoot");
+		tempButton.setFont(maken);
+		tempButton.setBorderPainted(false);
 		bottomPanel.add(tempButton);
-		
 		bottomPanel.add(optionsButton);
 		bottomPanel.add(exitButton);
 		exitButton.addActionListener(new ActionListener()
@@ -122,9 +131,8 @@ public class SinglePlayerGame extends JFrame{
 			}
 		
 		
-		PlayArea centrePanel = new PlayArea(im, PlayArea.SCALED, 1.0f, 0.5f, shotAngle, shotStrength);
-		GradientPaint paint = new GradientPaint(0, 0, Color.WHITE, 600, 0, Color.WHITE);
-		centrePanel.setPaint(paint);
+		PlayArea centrePanel = new PlayArea(im, shotAngle, shotStrength);
+		centrePanel.setBackground(Color.WHITE);
 		centrePanel.setSize(400, 400);
 		
 		this.add(centrePanel);
@@ -156,11 +164,21 @@ public class SinglePlayerGame extends JFrame{
 				
 			}			
 		});
-		
-		
-		
-		
-		
+		MouseListener buttonListener = new MouseAdapter() {
+			public void mouseEntered(MouseEvent event) {
+				Object source = event.getSource();
+				((JComponent) source).setForeground(Color.RED);
+			}
+			public void mouseExited(MouseEvent event) {
+				Object source = event.getSource();
+				((JComponent) source).setForeground(Color.BLACK);
+
+			}
+		};
+		optionsButton.addMouseListener(buttonListener);
+		tempButton.addMouseListener(buttonListener);
+		exitButton.addMouseListener(buttonListener);
 	}
+}	
 	
-}
+

@@ -1,24 +1,18 @@
 package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
+
 
 
 
@@ -32,20 +26,16 @@ public class PlayArea extends JPanel implements Runnable {
 	
 	Player player;
 
-	public PlayArea(Image image, int style, float alignmentX, float alignmentY, JTextField shotAngle, JTextField shotStrength)
+	public PlayArea(Image image, JTextField shotAngle, JTextField shotStrength)
 	{
 		
 		setImage( image );
-		setStyle( style );
-		setImageAlignmentX( alignmentX );
-		setImageAlignmentY( alignmentY );
 		setLayout( new BorderLayout() );
 		coeff = 1;
 		g = 9.81;
 		ro = 1.2;
 		diameter = 0.1;
 		mass = 0.1;
-//		alpha = 45;
 		a = coeff*diameter*ro*mass;
 		v0 = 100;    	    	
 		beta = alpha;
@@ -71,9 +61,6 @@ public class PlayArea extends JPanel implements Runnable {
 				
 		    	System.out.println(Double.toString(v0));
 		    	System.out.println(Double.toString(alpha));
-		    	
-		    	
-		    	
 				repaint();
 			}
 		});
@@ -82,223 +69,46 @@ public class PlayArea extends JPanel implements Runnable {
 				endPoint = new Point(e.getX(), e.getY());
 				alpha = getAlpha();
 				force = getForce();
-				
 				shotAngle.setText(String.valueOf(Math.round(getAlpha())));
 				shotStrength.setText(String.valueOf(forceToPower(force)));
-				
-				
-				
-				
 				repaint();
 			}
 		});
 		
 		
 	}
-	
-	//-----------------------------------------//
-	
-		public static final int SCALED = 0;
-		//public static final int TILED = 1;
-		//public static final int ACTUAL = 2;
-
 		private Paint painter;
 		private Image image;
-		private int style = SCALED;
-		private float alignmentX = 0.5f;
-		private float alignmentY = 0.5f;
-		private boolean isTransparentAdd = true;
-
-		
-		
-		 //  Use the Paint interface to paint a background
-		/*
-		public PlayArea(Paint painter)
-		{
-			setPaint( painter );
-			setLayout( new BorderLayout() );
-		}
-		 */
-
 		 //	Set the image used as the background
-		
 		public void setImage(Image image)
 		{
 			this.image = image;
 			repaint();
 		}
-	
-		
-		 //	Set the style used to paint the background image
-		
-		public void setStyle(int style)
-		{
-			this.style = style;
-			repaint();
-		}
-		 
-		
 		 //	Set the Paint object used to paint the background
-		 
 		public void setPaint(Paint painter)
 		{
 			this.painter = painter;
 			repaint();
 		}
-		 
-		
-		 //  Specify the horizontal alignment of the image when using ACTUAL style
-		 
-		public void setImageAlignmentX(float alignmentX)
-		{
-			this.alignmentX = alignmentX > 1.0f ? 1.0f : alignmentX < 0.0f ? 0.0f : alignmentX;
-			repaint();
-		}
-		 
-		
-		 //  Specify the horizontal alignment of the image when using ACTUAL style
-		 
-		public void setImageAlignmentY(float alignmentY)
-		{
-			this.alignmentY = alignmentY > 1.0f ? 1.0f : alignmentY < 0.0f ? 0.0f : alignmentY;
-			repaint();
-		}
-	
-		
-		 //  Override method so we can make the component transparent
-		/*
-		public void add(JComponent component)
-		{
-			add(component, null);
-		}
-		*/
-		
-		 // Override to provide a preferred size equal to the image size
-		/* 
-		@Override
-		public Dimension getPreferredSize()
-		{
-			if (image == null)
-				return super.getPreferredSize();
-			else
-				return new Dimension(image.getWidth(null), image.getHeight(null));
-		}
-		 */
-		
-		 //  Override method so we can make the component transparent
-		 /*
-		public void add(JComponent component, Object constraints)
-		{
-			if (isTransparentAdd)
-			{
-				makeComponentTransparent(component);
-			}
 
-			super.add(component, constraints);
-		}
-		  */
-		
-		 //  Controls whether components added to this panel should automatically
-		 //  be made transparent. That is, setOpaque(false) will be invoked.
-		 //  The default is set to true.
-		/* 
-		public void setTransparentAdd(boolean isTransparentAdd)
-		{
-			this.isTransparentAdd = isTransparentAdd;
-		}
-		 */
-		
-		 //	Try to make the component transparent.
-		 //  For components that use renderers, like JTable, you will also need to
-		 // change the renderer to be transparent. An easy way to do this it to
-		 // set the background of the table to a Color using an alpha value of 0.
-		/*
-		private void makeComponentTransparent(JComponent component)
-		{
-			component.setOpaque( false );
-
-			if (component instanceof JScrollPane)
-			{
-				JScrollPane scrollPane = (JScrollPane)component;
-				JViewport viewport = scrollPane.getViewport();
-				viewport.setOpaque( false );
-				Component c = viewport.getView();
-
-				if (c instanceof JComponent)
-				{
-					((JComponent)c).setOpaque( false );
-				}
-			}
-		}
-		 */
-		 
-		 //  Custom painting code for drawing a SCALED image as the background
-		 
 		private void drawScaled(Graphics g)
 		{
 			Dimension d = getSize();
 			g.drawImage(image, 0, 0, d.width, d.height, null);
 		}
 
-		
-		 //  Custom painting code for drawing TILED images as the background
-		/* 
-		private void drawTiled(Graphics g)
-		{
-			   Dimension d = getSize();
-			   int width = image.getWidth( null );
-			   int height = image.getHeight( null );
-
-			   for (int x = 0; x < d.width; x += width)
-			   {
-				   for (int y = 0; y < d.height; y += height)
-				   {
-					   g.drawImage( image, x, y, null, null );
-				   }
-			   }
-		}
-		 */
-		/*
-		 //  Custom painting code for drawing the ACTUAL image as the background.
-		//   The image is positioned in the panel based on the horizontal and
-		//   vertical alignments specified.
-		 
-		private void drawActual(Graphics g)
-		{
-			Dimension d = getSize();
-			Insets insets = getInsets();
-			int width = d.width - insets.left - insets.right;
-			int height = d.height - insets.top - insets.left;
-			float x = (width - image.getWidth(null)) * alignmentX;
-			float y = (height - image.getHeight(null)) * alignmentY;
-			g.drawImage(image, (int)x + insets.left, (int)y + insets.top, this);
-		}
-
-		*/
-		
-	  //------------------------------------------------------//
 	
 		public double getAlpha() {
 
-			double xLenght = endPoint.x-startPoint.x;
-			System.out.println("X" + Double.toString(xLenght));
-			
-			double yLenght =startPoint.y - endPoint.y;
-			System.out.println("Y" + Double.toString(yLenght));
-			
+			double xLenght = startPoint.x - endPoint.x;
+			double yLenght = endPoint.y - startPoint.y;		
 			double lineLength = Math.sqrt((xLenght*xLenght) + (yLenght*yLenght));
-			
-			System.out.println("Dlugosc" + Double.toString(lineLength));
-			
-			System.out.println("Y/X" + Double.toString(lineLength/xLenght));
-			
-			System.out.println("AKT" + Double.toString(Math.toDegrees(Math.acos(xLenght/lineLength))));
-			
-		    if(yLenght > 0) {
-		    	return Math.toDegrees(Math.acos(xLenght/lineLength));
-		    }else {
-		    	return -(Math.toDegrees(Math.acos(Math.toRadians(lineLength/xLenght))));
-		    }
+			   if(yLenght > 0) {
+			    	return Math.toDegrees(Math.acos(xLenght/lineLength));
+			    }else {
+			    	return -(Math.toDegrees(Math.acos(xLenght/lineLength)));
+			    }
 		}
 		public double getForce() {
 			int xLenght = startPoint.x - endPoint.x;
@@ -341,12 +151,7 @@ public class PlayArea extends JPanel implements Runnable {
 			vy=vy+dVy;
 		}	
 		public void paintComponent(Graphics g){ 
-			
-			
 			super.paintComponent(g);
-
-			//  Invoke the painter for the background
-
 			if (painter != null)
 			{
 				Dimension d = getSize();
@@ -360,14 +165,13 @@ public class PlayArea extends JPanel implements Runnable {
 			if (image == null ) return;
 			
 			drawScaled(g);
-			
+	
 		    Graphics2D g2d = (Graphics2D)g;
-		    g2d.setColor(Color.BLACK);
 			if(whenDraw) {
 				g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 				g.drawOval(startPoint.x - 10, startPoint.y - 10, 20, 20);
 			}
-			//player.drawPlayer(g2d, player.firstArea, forceToPower(force));
+			player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 			player.prepareToShot(g2d, alpha, forceToPower(force));
 		    if(count==2)
 		    {
@@ -413,7 +217,7 @@ public class PlayArea extends JPanel implements Runnable {
 				repaint();
 				count++;
 				try {
-					Thread.sleep(1);
+					Thread.sleep(0,1);
 				} 
 				catch (InterruptedException e) {
 					e.printStackTrace();

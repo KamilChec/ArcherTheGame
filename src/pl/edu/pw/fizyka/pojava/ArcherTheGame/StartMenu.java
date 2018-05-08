@@ -63,14 +63,11 @@ public class StartMenu extends JFrame {
 				try {
 					backgroundImage = ImageIO.read(getClass().getResource("/images/bg.png"));
 					arrowImage = ImageIO.read(getClass().getResource("/images/arrow.png"));
-//					ImageIcon upload = new ImageIcon(getClass().getResource("/images/bgGifv2.gif"));
 					ImageIcon upload = new ImageIcon(getClass().getResource("/images/background2.gif"));
 					bgGif = upload.getImage();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-//				g2d.drawImage(backgroundImage, 0, 0, dimension.width, dimension.height,this);
-//				g2d.drawImage(bgGif, 300, 120, 296, 325,this); // 270 130
 				g2d.drawImage(bgGif, 0, 0, dimension.width, dimension.height,this);
 				if(drawLine1 == true) g2d.drawImage(arrowImage, 300, 125, 150, 90, this);
 				if(drawLine2 == true) g2d.drawImage(arrowImage, 270, 215, 150, 90, this);
