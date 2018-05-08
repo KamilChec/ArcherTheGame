@@ -32,7 +32,7 @@ public class Player {
 		
 		for( int ii = 0; ii < 3; ii++) {
 			try {
-				firstArea.add(loadImage("/images/shotPositiones/minus45degrees" + ii + ".png"));
+				firstArea.add(loadImage("/images/shotPositiones/-45degrees" + ii + ".png"));
 				secondArea.add(loadImage("/images/shotPositiones/0degrees" + ii + ".png"));
 				thirdArea.add(loadImage("/images/shotPositiones/30degrees" + ii + ".png"));
 				fourthArea.add(loadImage("/images/shotPositiones/60degrees" + ii + ".png"));
@@ -46,11 +46,16 @@ public class Player {
 	public BufferedImage loadImage(String name) throws IOException {
 		return ImageIO.read(getClass().getResource(name));
 	}
+	
+	
+	
 	public void drawPlayer(Graphics2D g2d, ArrayList<BufferedImage> images, int power) {
 		if(power <= 30)                 g2d.drawImage(images.get(0), 100, 300, 159, 174, observer);
 		if(power > 30 && power < 70)    g2d.drawImage(images.get(1), 100, 300, 159, 174, observer);
 		if(power >= 70 && power <= 100) g2d.drawImage(images.get(2), 100, 300, 159, 174, observer);
 	}
+	
+	
 
 	public void prepareToShot(Graphics g, double angle, int power) {
 		Graphics2D g2d = (Graphics2D) g;

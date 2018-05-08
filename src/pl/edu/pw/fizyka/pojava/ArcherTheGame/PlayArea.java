@@ -49,8 +49,8 @@ public class PlayArea extends JPanel implements Runnable {
 		a = coeff*diameter*ro*mass;
 		v0 = 100;    	    	
 		beta = alpha;
-		xPos = 0;
-		yPos = 500;
+		xPos = 200;
+		yPos = 350;
 		player = new Player(this);
 		
 		addMouseListener(new MouseAdapter() {
@@ -99,8 +99,8 @@ public class PlayArea extends JPanel implements Runnable {
 	//-----------------------------------------//
 	
 		public static final int SCALED = 0;
-		public static final int TILED = 1;
-		public static final int ACTUAL = 2;
+		//public static final int TILED = 1;
+		//public static final int ACTUAL = 2;
 
 		private Paint painter;
 		private Image image;
@@ -112,31 +112,31 @@ public class PlayArea extends JPanel implements Runnable {
 		
 		
 		 //  Use the Paint interface to paint a background
-		 
+		/*
 		public PlayArea(Paint painter)
 		{
 			setPaint( painter );
 			setLayout( new BorderLayout() );
 		}
-
+		 */
 
 		 //	Set the image used as the background
-		 
+		
 		public void setImage(Image image)
 		{
 			this.image = image;
 			repaint();
 		}
-
+	
 		
 		 //	Set the style used to paint the background image
-		 
+		
 		public void setStyle(int style)
 		{
 			this.style = style;
 			repaint();
 		}
-
+		 
 		
 		 //	Set the Paint object used to paint the background
 		 
@@ -145,7 +145,7 @@ public class PlayArea extends JPanel implements Runnable {
 			this.painter = painter;
 			repaint();
 		}
-
+		 
 		
 		 //  Specify the horizontal alignment of the image when using ACTUAL style
 		 
@@ -154,7 +154,7 @@ public class PlayArea extends JPanel implements Runnable {
 			this.alignmentX = alignmentX > 1.0f ? 1.0f : alignmentX < 0.0f ? 0.0f : alignmentX;
 			repaint();
 		}
-
+		 
 		
 		 //  Specify the horizontal alignment of the image when using ACTUAL style
 		 
@@ -163,18 +163,18 @@ public class PlayArea extends JPanel implements Runnable {
 			this.alignmentY = alignmentY > 1.0f ? 1.0f : alignmentY < 0.0f ? 0.0f : alignmentY;
 			repaint();
 		}
-
+	
 		
 		 //  Override method so we can make the component transparent
-		 
+		/*
 		public void add(JComponent component)
 		{
 			add(component, null);
 		}
-
+		*/
 		
 		 // Override to provide a preferred size equal to the image size
-		 
+		/* 
 		@Override
 		public Dimension getPreferredSize()
 		{
@@ -183,10 +183,10 @@ public class PlayArea extends JPanel implements Runnable {
 			else
 				return new Dimension(image.getWidth(null), image.getHeight(null));
 		}
-
+		 */
 		
 		 //  Override method so we can make the component transparent
-		 
+		 /*
 		public void add(JComponent component, Object constraints)
 		{
 			if (isTransparentAdd)
@@ -196,23 +196,23 @@ public class PlayArea extends JPanel implements Runnable {
 
 			super.add(component, constraints);
 		}
-
+		  */
 		
 		 //  Controls whether components added to this panel should automatically
 		 //  be made transparent. That is, setOpaque(false) will be invoked.
 		 //  The default is set to true.
-		 
+		/* 
 		public void setTransparentAdd(boolean isTransparentAdd)
 		{
 			this.isTransparentAdd = isTransparentAdd;
 		}
-
+		 */
 		
 		 //	Try to make the component transparent.
 		 //  For components that use renderers, like JTable, you will also need to
 		 // change the renderer to be transparent. An easy way to do this it to
 		 // set the background of the table to a Color using an alpha value of 0.
-		 
+		/*
 		private void makeComponentTransparent(JComponent component)
 		{
 			component.setOpaque( false );
@@ -230,7 +230,7 @@ public class PlayArea extends JPanel implements Runnable {
 				}
 			}
 		}
-	
+		 */
 		 
 		 //  Custom painting code for drawing a SCALED image as the background
 		 
@@ -242,7 +242,7 @@ public class PlayArea extends JPanel implements Runnable {
 
 		
 		 //  Custom painting code for drawing TILED images as the background
-		 
+		/* 
 		private void drawTiled(Graphics g)
 		{
 			   Dimension d = getSize();
@@ -257,8 +257,8 @@ public class PlayArea extends JPanel implements Runnable {
 				   }
 			   }
 		}
-
-		
+		 */
+		/*
 		 //  Custom painting code for drawing the ACTUAL image as the background.
 		//   The image is positioned in the panel based on the horizontal and
 		//   vertical alignments specified.
@@ -274,7 +274,7 @@ public class PlayArea extends JPanel implements Runnable {
 			g.drawImage(image, (int)x + insets.left, (int)y + insets.top, this);
 		}
 
-		
+		*/
 		
 	  //------------------------------------------------------//
 	
@@ -358,25 +358,8 @@ public class PlayArea extends JPanel implements Runnable {
 			//  Draw the image
 
 			if (image == null ) return;
-
-			switch (style)
-			{
-				case SCALED :
-					drawScaled(g);
-					break;
-
-				case TILED  :
-					drawTiled(g);
-					break;
-
-				case ACTUAL :
-					drawActual(g);
-					break;
-
-				default:
-	            	drawScaled(g);
-			}
 			
+			drawScaled(g);
 			
 		    Graphics2D g2d = (Graphics2D)g;
 		    g2d.setColor(Color.BLACK);
@@ -384,7 +367,7 @@ public class PlayArea extends JPanel implements Runnable {
 				g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 				g.drawOval(startPoint.x - 10, startPoint.y - 10, 20, 20);
 			}
-			player.drawPlayer(g2d, player.firstArea, forceToPower(force));
+			//player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 			player.prepareToShot(g2d, alpha, forceToPower(force));
 		    if(count==2)
 		    {

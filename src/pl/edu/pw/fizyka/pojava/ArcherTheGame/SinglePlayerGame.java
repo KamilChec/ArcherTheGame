@@ -148,8 +148,8 @@ public class SinglePlayerGame extends JFrame{
 				System.out.println("coeff " +Double.toString(hold.coeff));
 				
 				centrePanel.cons=1;
-				centrePanel.xPos = 0;
-				centrePanel.yPos = 400;
+				centrePanel.xPos = 200;
+				centrePanel.yPos = 350;
 				
 				Thread gamethread = new Thread(centrePanel);
 				gamethread.start();			
