@@ -229,13 +229,13 @@ public class PlayArea extends JPanel implements Runnable {
 				}
 				if(xPos>496 && xPos<520)
 				{
-					System.out.println("Kappa");					
+							
 					if(yPos<440 && yPos>380)
 					{						
-						System.out.println("PogChamp");
+						
 						if(yPos>-2.5*xPos+1160)
 						{
-							System.out.println("LUL");
+
 							cons=0;
 							beta=alpha;
 						}
