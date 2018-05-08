@@ -134,11 +134,18 @@ public class SinglePlayerGame extends JFrame{
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				centrePanel.a=hold.a;
+				centrePanel.g=hold.g;
 				centrePanel.ro=hold.ro;
 				centrePanel.mass=hold.mass;
 				centrePanel.diameter=hold.diameter;
 				centrePanel.coeff=hold.coeff;
+				centrePanel.a=centrePanel.coeff*centrePanel.ro*centrePanel.mass*centrePanel.diameter;
+
+				System.out.println("g " + Double.toString(hold.g));
+				System.out.println("ro " +Double.toString(hold.ro));
+				System.out.println("mass " +Double.toString(hold.mass));
+				System.out.println("diameter " +Double.toString(hold.diameter));
+				System.out.println("coeff " +Double.toString(hold.coeff));
 				
 				centrePanel.cons=1;
 				centrePanel.xPos = 0;

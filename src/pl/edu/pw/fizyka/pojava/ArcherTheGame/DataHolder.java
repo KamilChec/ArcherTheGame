@@ -2,7 +2,7 @@ package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 
 public class DataHolder {
 	
-	double a, g, ro, diameter, mass, coeff;
+	double g, ro, diameter, mass, coeff;
 	
 	DataHolder()
 	{		
@@ -10,8 +10,7 @@ public class DataHolder {
 		mass = 0.1;
 		coeff = 1;
 		g = 9.81;
-		ro = 1.2;
-		a = coeff*diameter*ro*mass;
+		ro = 1.2;		
 	}
 	
 

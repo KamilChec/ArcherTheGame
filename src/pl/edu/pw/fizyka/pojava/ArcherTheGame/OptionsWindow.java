@@ -102,11 +102,11 @@ public class OptionsWindow extends JFrame {
 		{			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				h.diameter=sl1.getValue();
-				h.mass=sl2.getValue();
-				h.coeff=sl3.getValue();
-				h.g=sl4.getValue();
-				h.ro=sl5.getValue();
+				h.diameter=sl1.getValue()/temp;
+				h.mass=sl2.getValue()/temp;
+				h.coeff=sl3.getValue()/temp;
+				h.g=sl4.getValue()/temp;
+				h.ro=sl5.getValue()/temp;
 				CloseOp();
 				
 			}			

@@ -396,14 +396,14 @@ public class PlayArea extends JPanel implements Runnable {
 		    	if(count>10){
 		    		if(vy>0)
 		    		{	    			    	
-		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos, yPos);
+		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos+(10*Math.cos(Math.toRadians(beta))), yPos-(Math.sin(Math.toRadians(beta))));
 		    			g2d.fillRect((int) xPos, (int) yPos, 20, 2);
 		    			beta=beta-gamma;
 			    	
 		    		}
 		    		else if(vy<0)
 		    		{    				    	
-		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos, yPos);
+		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos+(10*Math.cos(Math.toRadians(beta))), yPos-(Math.sin(Math.toRadians(beta))));
 		    			g2d.fillRect((int) xPos, (int) yPos, 20, 2);
 		    			beta = gamma+beta;		    	
 		    		}	    	
