@@ -227,6 +227,11 @@ public class PlayArea extends JPanel implements Runnable {
 					cons=0;
 					beta=alpha;				
 				}
+				if(xPos>500)
+				{
+					cons=0;
+					beta=alpha;				
+				}
 				if(xPos>496 && xPos<520)
 				{
 							
