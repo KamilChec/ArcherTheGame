@@ -202,11 +202,12 @@ public class PlayArea extends JPanel implements Runnable {
 
 		@Override
 		public void run() {
-			
-			beta=alpha;
-			vx=v0*Math.cos(Math.toRadians(alpha));
-	    	vy=v0*Math.sin(Math.toRadians(alpha));
-			
+			if(count<2)
+			{
+				beta=alpha;
+				vx=v0*Math.cos(Math.toRadians(alpha));
+				vy=v0*Math.sin(Math.toRadians(alpha));
+			}
 			while(cons==1)
 			{
 				System.out.println(Integer.toString(cons));
@@ -217,7 +218,7 @@ public class PlayArea extends JPanel implements Runnable {
 				repaint();
 				count++;
 				try {
-					Thread.sleep(0,1);
+					Thread.sleep(1);
 				} 
 				catch (InterruptedException e) {
 					e.printStackTrace();
