@@ -31,16 +31,16 @@ public class PlayArea extends JPanel implements Runnable {
 		
 		setImage( image );
 		setLayout( new BorderLayout() );
-		coeff = 1;
-		g = 9.81;
-		ro = 1.2;
-		diameter = 0.1;
-		mass = 0.1;
-		a = coeff*diameter*ro*mass;
-		v0 = 100;    	    	
-		beta = alpha;
-		xPos = 200;
-		yPos = 350;
+		coeff = 1;			//wspó³czynnik oporu zale¿ny od kszta³tu
+		g = 9.81;			//przyspieszenie grawitacyjne
+		ro = 1.2;			//gêstoœæ powietrza
+		diameter = 0.1;		//œrednica strza³y
+		mass = 0.1;			//masa strza³y
+		a = coeff*diameter*ro*mass;	//wspó³czynnik proporcjonalnoœci oporu od prêdkoœci
+		v0 = 100;    	    	//prêdkoœæ pocz¹tkowa
+		beta = alpha;			//k¹t tymczasowy
+		xPos = 200;				//pozycja pocz¹tkowa w x
+		yPos = 350;				//pozycja pocz¹tkowa w y
 		player = new Player(this);
 		
 		addMouseListener(new MouseAdapter() {
@@ -135,20 +135,21 @@ public class PlayArea extends JPanel implements Runnable {
 		
 		public void Translate(double t)
 		{
-			dVx=-a*vx*t/mass;
-			dVy=-a*vy*t/mass-g*t;
+			dVx=-a*vx*t/mass;			//zmiana prêdkoœci w x w czasie jednego odœwie¿enia t (ten sam czas który jest w sleep()
+			dVy=-a*vy*t/mass-g*t;		//to samo dla prêdkoœci w y
 			
 			System.out.println("VX" + Double.toString(vx));
 			System.out.println("VY" + Double.toString(vy));
 			
-			xPos=xPos + (vx*t);		
-			yPos=yPos - (vy*t);
+			xPos=xPos + (vx*t);		//zmiana po³o¿enia w x w czasie jednego odœwie¿enia t, dla prêdkoœci na pocz¹tku tego czasu
+			yPos=yPos - (vy*t);		//to samo w y
 			repaint();
 		
-			gamma=Math.atan(Math.toRadians(((vy*t)/(vx*t)))); 
-		
-			vx=vx+dVx;
-			vy=vy+dVy;
+					
+			vx=vx+dVx;				//uaktualnienie prêdkoœci w x
+			vy=vy+dVy;				//uaktualnienie prêdkoœci w y
+			
+			gamma=Math.atan(Math.toRadians(((vy)/(vx)))); //k¹t o jaki powinna byæ nachylona strza³a w nastêpnym cyklu odœwie¿enia
 		}	
 		public void paintComponent(Graphics g){ 
 			super.paintComponent(g);
@@ -180,12 +181,14 @@ public class PlayArea extends JPanel implements Runnable {
 		    }
 		    else
 		    {
-		    	if(count>10){
+		    	if(count>2){
 		    		if(vy>0)
 		    		{	    			    	
 		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos+(10*Math.cos(Math.toRadians(beta))), yPos-(Math.sin(Math.toRadians(beta))));
+		    			//obrócenie strza³y - metoda dzia³a tak, ¿e przesuwa grafikê o jakiœ x i y, obraca wokó³ punktu (0, 0) o jakiœ k¹t alpha,
+		    			//, a nastêpnie przesuwa z powrotem o x i y
 		    			g2d.fillRect((int) xPos, (int) yPos, 20, 2);
-		    			beta=beta-gamma;
+		    			beta=beta-gamma; //uaktualnienie k¹ta (w sumie zauwa¿y³em, ¿e to nie powinno dzia³aæ, ale logiczny sposób nie dzia³a w ogóle, wiêc na razie zostawiam jak jest
 			    	
 		    		}
 		    		else if(vy<0)
