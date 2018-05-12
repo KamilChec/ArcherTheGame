@@ -158,10 +158,7 @@ public class SinglePlayerGame extends JFrame{
 				centrePanel.cons=1;
 				centrePanel.xPos = 200;
 				centrePanel.yPos = 350;
-				
-				Thread gamethread = new Thread(centrePanel);
-				gamethread.start();			
-				
+						
 			}			
 		});
 		MouseListener buttonListener = new MouseAdapter() {

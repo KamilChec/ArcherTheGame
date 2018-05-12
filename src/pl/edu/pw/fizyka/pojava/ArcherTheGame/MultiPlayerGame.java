@@ -69,8 +69,7 @@ public class MultiPlayerGame extends JFrame {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread gamethread = new Thread(centrePanel);
-				gamethread.start();
+		
 			}			
 		});
 		//temp*

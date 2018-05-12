@@ -10,13 +10,18 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
 
 
-public class PlayArea extends JPanel implements Runnable {
+
+
+public class PlayArea extends JPanel {
 	int cons=1;
 	static int count=1;
 	
@@ -25,23 +30,26 @@ public class PlayArea extends JPanel implements Runnable {
 	Point startPoint, endPoint;
 	
 	Player player;
+	Arrow arrow;
+	ArrayList<Arrow> arrows;
 
 	public PlayArea(Image image, JTextField shotAngle, JTextField shotStrength)
 	{
 		
 		setImage( image );
 		setLayout( new BorderLayout() );
-		coeff = 1;			//wspó³czynnik oporu zale¿ny od kszta³tu
+		coeff = 1;			//wspï¿½czynnik oporu zaleï¿½ny od ksztaï¿½tu
 		g = 9.81;			//przyspieszenie grawitacyjne
-		ro = 1.2;			//gêstoœæ powietrza
-		diameter = 0.1;		//œrednica strza³y
-		mass = 0.1;			//masa strza³y
-		a = coeff*diameter*ro*mass;	//wspó³czynnik proporcjonalnoœci oporu od prêdkoœci
-		v0 = 100;    	    	//prêdkoœæ pocz¹tkowa
-		beta = alpha;			//k¹t tymczasowy
-		xPos = 200;				//pozycja pocz¹tkowa w x
-		yPos = 350;				//pozycja pocz¹tkowa w y
+		ro = 1.2;			//gï¿½stoï¿½ï¿½ powietrza
+		diameter = 0.1;		//ï¿½rednica strzaï¿½y
+		mass = 0.1;			//masa strzaï¿½y
+		a = coeff*diameter*ro*mass;	//wspï¿½czynnik proporcjonalnoï¿½ci oporu od prï¿½dkoï¿½ci
+		v0 = 100;    	    	//prï¿½dkoï¿½ï¿½ poczï¿½tkowa
+		beta = alpha;			//kï¿½t tymczasowy
+		xPos = 200;				//pozycja poczï¿½tkowa w x
+		yPos = 350;				//pozycja poczï¿½tkowa w y
 		player = new Player(this);
+		arrows = new ArrayList<Arrow>();
 		
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -54,13 +62,11 @@ public class PlayArea extends JPanel implements Runnable {
 				whenDraw = false;
 				shotAngle.setText("000");
 				shotStrength.setText("000");
-				
-				v0=forceToPower(force);
-				vx = v0*Math.cos(Math.toRadians(alpha));
-		    	vy = v0*Math.sin(Math.toRadians(alpha));
-				
-		    	System.out.println(Double.toString(v0));
-		    	System.out.println(Double.toString(alpha));
+				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y);
+				ExecutorService exec = Executors.newSingleThreadExecutor();
+				exec.execute(arrow);
+				exec.shutdown();
+				arrows.add(arrow);
 				repaint();
 			}
 		});
@@ -133,24 +139,13 @@ public class PlayArea extends JPanel implements Runnable {
 				
 		}
 		
-		public void Translate(double t)
-		{
-			dVx=-a*vx*t/mass;			//zmiana prêdkoœci w x w czasie jednego odœwie¿enia t (ten sam czas który jest w sleep()
-			dVy=-a*vy*t/mass-g*t;		//to samo dla prêdkoœci w y
-			
-			System.out.println("VX" + Double.toString(vx));
-			System.out.println("VY" + Double.toString(vy));
-			
-			xPos=xPos + (vx*t);		//zmiana po³o¿enia w x w czasie jednego odœwie¿enia t, dla prêdkoœci na pocz¹tku tego czasu
-			yPos=yPos - (vy*t);		//to samo w y
-			repaint();
-		
-					
-			vx=vx+dVx;				//uaktualnienie prêdkoœci w x
-			vy=vy+dVy;				//uaktualnienie prêdkoœci w y
-			
-			gamma=Math.atan(Math.toRadians(((vy)/(vx)))); //k¹t o jaki powinna byæ nachylona strza³a w nastêpnym cyklu odœwie¿enia
-		}	
+		public Point arrowStartPos(double angle) {
+			if(angle > -180 && angle < -10) 		return new Point(player.xPos + 122, player.yPos + 129);
+			else if(angle >= -10 && angle <= 10) 	return new Point(player.xPos + 122, player.yPos + 83);
+			else if(angle > 10 && angle < 45)		return new Point(player.xPos + 125, player.yPos + 61);
+			else if(angle >= 45 && angle <= 80)  	return new Point(player.xPos + 110, player.yPos + 44);
+			else /*(angle > 80 && angle <= 180)	 */	return new Point(player.xPos + 70, player.yPos + 28);
+		}
 		public void paintComponent(Graphics g){ 
 			super.paintComponent(g);
 			if (painter != null)
@@ -174,87 +169,8 @@ public class PlayArea extends JPanel implements Runnable {
 			}
 			player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 			player.prepareToShot(g2d, alpha, forceToPower(force));
-		    if(count==2)
-		    {
-		    	g2d.rotate(Math.toRadians(-45), xPos, yPos);
-		    	g2d.fillRect((int) xPos, (int) yPos, 20, 2);
-		    }
-		    else
-		    {
-		    	if(count>2){
-		    		if(vy>0)
-		    		{	    			    	
-		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos+(10*Math.cos(Math.toRadians(beta))), yPos-(Math.sin(Math.toRadians(beta))));
-		    			//obrócenie strza³y - metoda dzia³a tak, ¿e przesuwa grafikê o jakiœ x i y, obraca wokó³ punktu (0, 0) o jakiœ k¹t alpha,
-		    			//, a nastêpnie przesuwa z powrotem o x i y
-		    			g2d.fillRect((int) xPos, (int) yPos, 20, 2);
-		    			beta=beta-gamma; //uaktualnienie k¹ta (w sumie zauwa¿y³em, ¿e to nie powinno dzia³aæ, ale logiczny sposób nie dzia³a w ogóle, wiêc na razie zostawiam jak jest
-			    	
-		    		}
-		    		else if(vy<0)
-		    		{    				    	
-		    			g2d.rotate(Math.toRadians(-(beta-gamma)), xPos+(10*Math.cos(Math.toRadians(beta))), yPos-(Math.sin(Math.toRadians(beta))));
-		    			g2d.fillRect((int) xPos, (int) yPos, 20, 2);
-		    			beta = gamma+beta;		    	
-		    		}	    	
-		    	}
-		    }
-			
-			
-	    }
-
-		@Override
-		public void run() {
-			if(count<2)
-			{
-				beta=alpha;
-				vx=v0*Math.cos(Math.toRadians(alpha));
-				vy=v0*Math.sin(Math.toRadians(alpha));
+			for(Arrow arrow : arrows) {
+				arrow.drawArrow(g2d);
 			}
-			while(cons==1)
-			{
-				System.out.println(Integer.toString(cons));
-				System.out.println("X" + Double.toString(xPos));
-				System.out.println("Y" + Double.toString(yPos));
-				
-				Translate(0.001);
-				repaint();
-				count++;
-				try {
-					Thread.sleep(1);
-				} 
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if(yPos>500)
-				{
-					cons=0;
-					beta=alpha;				
-				}
-				if(xPos>500)
-				{
-					cons=0;
-					beta=alpha;				
-				}
-				if(xPos>496 && xPos<520)
-				{
-							
-					if(yPos<440 && yPos>380)
-					{						
-						
-						if(yPos>-2.5*xPos+1160)
-						{
-
-							cons=0;
-							beta=alpha;
-						}
-					}
-				}
-			}
-			
-			
-		}
-	
-	
-	
+	    }	
 }

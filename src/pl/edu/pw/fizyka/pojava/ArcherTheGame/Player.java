@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 public class Player {
 	int health;
 	int damage;
+	int xPos;
+	int yPos;
 										 //	 angle:
 	ArrayList<BufferedImage> firstArea;  //  (-90, -10)
 	ArrayList<BufferedImage> secondArea; //  <-10, 10>
@@ -28,6 +30,8 @@ public class Player {
 		thirdArea = new ArrayList<BufferedImage>();
 		fourthArea = new ArrayList<BufferedImage>();
 		fifthArea = new ArrayList<BufferedImage>();
+		xPos = 100;
+		yPos = 300;
 		
 		for( int ii = 0; ii < 3; ii++) {
 			try {
@@ -46,9 +50,9 @@ public class Player {
 		return ImageIO.read(getClass().getResource(name));
 	}
 	public void drawPlayer(Graphics2D g2d, ArrayList<BufferedImage> images, int power) {
-		if(power <= 30)                 g2d.drawImage(images.get(0), 100, 300, 159, 174, observer);
-		if(power > 30 && power < 70)    g2d.drawImage(images.get(1), 100, 300, 159, 174, observer);
-		if(power >= 70 && power <= 100) g2d.drawImage(images.get(2), 100, 300, 159, 174, observer);
+		if(power <= 30)                 g2d.drawImage(images.get(0), xPos, yPos, 159, 174, observer);
+		if(power > 30 && power < 70)    g2d.drawImage(images.get(1), xPos, yPos, 159, 174, observer);
+		if(power >= 70 && power <= 100) g2d.drawImage(images.get(2), xPos, yPos, 159, 174, observer);
 	}
 
 	public void prepareToShot(Graphics g, double angle, int power) {
