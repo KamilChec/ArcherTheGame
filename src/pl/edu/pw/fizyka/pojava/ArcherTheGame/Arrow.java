@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -18,6 +20,11 @@ public class Arrow implements Runnable {
 	int width, length;
 	boolean shoot = true;
 	boolean fly = true;
+	static int counter=0;
+	static int randomX=0;
+	static int randomY=0;
+	static int randomWidth=0; 
+	static int randomHeigth=0;
 	
 	JPanel panel;
 	
@@ -26,6 +33,15 @@ public class Arrow implements Runnable {
 		this.panel = panel;
 		width = panel.getWidth();
 		length = panel.getHeight();
+		
+		if(counter % 5 == 0)
+		{
+			Random rand = new Random();
+			randomX = rand.nextInt(300);
+			randomY = rand.nextInt(300);
+			randomWidth = rand.nextInt(50);
+			randomHeigth = rand.nextInt(50);
+		}
 
 		coeff = 1;
 		g = 9.81;
@@ -41,6 +57,7 @@ public class Arrow implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		counter++;
 	}
 	
 	public void Translate(double time) {		
@@ -73,6 +90,17 @@ public class Arrow implements Runnable {
 			panel.repaint();
 			if(xPos > width || yPos > length) fly = false;
 			if(xPos < 0 || yPos < 0) fly = false;
+			
+			if(xPos>randomX && xPos<randomX+randomWidth)
+			{				
+				if(yPos>randomY && yPos<randomY+randomHeigth)
+				{					
+					fly=false;
+				}
+			}
+			
+			
+			
 		}
 
 

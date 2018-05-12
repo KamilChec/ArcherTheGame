@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.JPanel;
@@ -28,6 +29,11 @@ public class PlayArea extends JPanel {
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force;
 	boolean whenDraw = false;
 	Point startPoint, endPoint;
+	
+	//int randomX=0;
+	//int randomY=0;
+	//int randomWidth=0; 
+	//int randomHeigth=0;
 	
 	Player player;
 	Arrow arrow;
@@ -80,7 +86,15 @@ public class PlayArea extends JPanel {
 				repaint();
 			}
 		});
-		
+			
+		/*if(Arrow.counter % 5 == 0)
+		{
+			Random rand = new Random();
+			randomX = rand.nextInt(300);
+			randomY = rand.nextInt(300);
+			randomWidth = rand.nextInt(50);
+			randomHeigth = rand.nextInt(50);
+		}*/
 		
 	}
 		private Paint painter;
@@ -169,6 +183,10 @@ public class PlayArea extends JPanel {
 			}
 			player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 			player.prepareToShot(g2d, alpha, forceToPower(force));
+			
+			
+			g2d.fillRect(Arrow.randomX, Arrow.randomY, Arrow.randomWidth, Arrow.randomHeigth);
+			
 			for(Arrow arrow : arrows) {
 				arrow.drawArrow(g2d);
 			}
