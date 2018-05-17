@@ -53,7 +53,7 @@ public class Arrow implements Runnable {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		try {
-			arrowImage = ImageIO.read(getClass().getResource("/images/arrow2.png"));
+			arrowImage = ImageIO.read(getClass().getResource("/images/arrow1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -107,16 +107,19 @@ public class Arrow implements Runnable {
 	}
 	
 	public void drawArrow(Graphics2D g2d) {
-//		AffineTransform tx = AffineTransform.getRotateInstance(-Math.atan(vy/vx), (int) xPos, (int) yPos);
-//		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-//		g2d.drawImage(op.filter(arrowImage, null), (int) xPos, (int) yPos, panel);
 		
-		Rectangle2D myRect = new Rectangle2D.Double((int) xPos, (int) yPos, 20, 2);
-		AffineTransform at = AffineTransform.getRotateInstance(-Math.atan(vy/vx), (int) xPos, (int) yPos);
-		Shape rotatedRect = at.createTransformedShape(myRect);
-		g2d.fill(rotatedRect);
-		g2d.draw(rotatedRect);
-//		g2d.drawImage(arrowImage, (int) xPos, (int) yPos, panel);
+//		Rectangle2D myRect = new Rectangle2D.Double((int) xPos, (int) yPos, 20, 2);
+//		AffineTransform at = AffineTransform.getRotateInstance(-Math.atan(vy/vx), (int) xPos, (int) yPos);
+//		Shape rotatedRect = at.createTransformedShape(myRect);
+//		g2d.fill(rotatedRect);
+//		g2d.draw(rotatedRect);
+		
+		   AffineTransform backup = g2d.getTransform();
+		   AffineTransform at = AffineTransform.getRotateInstance(-Math.atan(vy/vx), (int) xPos, (int) yPos);
+		   g2d.setTransform(at);
+		   g2d.drawImage(arrowImage, (int) xPos, (int) yPos, 78, 7, panel);
+		   g2d.setTransform(backup);
+
 	}
 
 		
