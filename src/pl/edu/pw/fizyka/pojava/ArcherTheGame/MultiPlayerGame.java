@@ -6,9 +6,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +27,7 @@ public class MultiPlayerGame extends JFrame {
 	JButton exitButton, optionsButton;
 	JTextField shotStrength, shotAngle, shotStrength1, shotAngle1;
 	PlayArea centrePanel;
+	Image im;
 	
 	public void CloseMP(){
 		super.dispose();
@@ -30,7 +35,9 @@ public class MultiPlayerGame extends JFrame {
 
 	public MultiPlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(800,800);
+		this.setSize(600,600);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		
 		//---------Top-----------
 		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);		
@@ -81,9 +88,19 @@ public class MultiPlayerGame extends JFrame {
 		bottomPanel.add(shotStrength1);
 		
 		//------------Centre---
-//		this.add(centrePanel = new PlayArea(), BorderLayout.CENTER);
+		URL resource = getClass().getResource("/images/1.PNG");
+		try {
+			 im = ImageIO.read(resource);
+			} 
+		catch (IOException e) {
+			 System.err.println("Blad odczytu obrazka");
+			 e.printStackTrace();
+			}
+				
+		PlayArea centrePanel = new PlayArea(im, shotAngle, shotStrength, 1);
+		this.add(centrePanel);
 		centrePanel.setBackground(Color.WHITE);
-		centrePanel.setSize(600, 600);
+		centrePanel.setSize(400, 400);
 	}
 
 	

@@ -131,7 +131,7 @@ public class SinglePlayerGame extends JFrame{
 			}
 		
 		
-		PlayArea centrePanel = new PlayArea(im, shotAngle, shotStrength);
+		PlayArea centrePanel = new PlayArea(im, shotAngle, shotStrength, 0);
 		centrePanel.setBackground(Color.WHITE);
 		centrePanel.setSize(400, 400);
 		

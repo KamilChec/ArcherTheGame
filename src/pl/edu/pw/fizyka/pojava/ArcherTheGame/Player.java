@@ -15,6 +15,8 @@ public class Player {
 	int damage;
 	int xPos;
 	int yPos;
+	int xPos1;
+	int yPos1;
 										 //	 angle:
 	ArrayList<BufferedImage> firstArea;  //  (-90, -10)
 	ArrayList<BufferedImage> secondArea; //  <-10, 10>
@@ -32,6 +34,8 @@ public class Player {
 		fifthArea = new ArrayList<BufferedImage>();
 		xPos = 100;
 		yPos = 300;
+		xPos1 = 400;
+		yPos1 = 300;
 		
 		for( int ii = 0; ii < 3; ii++) {
 			try {
@@ -52,7 +56,7 @@ public class Player {
 	public void drawPlayer(Graphics2D g2d, ArrayList<BufferedImage> images, int power) {
 		if(power <= 30)                 g2d.drawImage(images.get(0), xPos, yPos, 159, 174, observer);
 		if(power > 30 && power < 70)    g2d.drawImage(images.get(1), xPos, yPos, 159, 174, observer);
-		if(power >= 70 && power <= 100) g2d.drawImage(images.get(2), xPos, yPos, 159, 174, observer);
+		if(power >= 70 && power <= 100) g2d.drawImage(images.get(2), xPos, yPos, 159, 174, observer);		
 	}
 
 	public void prepareToShot(Graphics g, double angle, int power) {
@@ -63,5 +67,21 @@ public class Player {
 		else if(angle > 10 && angle < 45)	 drawPlayer(g2d, thirdArea, power);
 		else if(angle >= 45 && angle <= 80)  drawPlayer(g2d, fourthArea, power);
 		else if(angle > 80 && angle <= 180)	 drawPlayer(g2d, fifthArea, power);
+	}
+	
+	public void drawPlayer2(Graphics2D g2d, ArrayList<BufferedImage> images, int power) {
+		if(power <= 30)                 g2d.drawImage(images.get(0), xPos1, yPos1, 159, 174, observer);
+		if(power > 30 && power < 70)    g2d.drawImage(images.get(1), xPos1, yPos1, 159, 174, observer);
+		if(power >= 70 && power <= 100) g2d.drawImage(images.get(2), xPos1, yPos1, 159, 174, observer);		
+	}
+
+	public void prepareToShot2(Graphics g, double angle, int power) {
+		Graphics2D g2d = (Graphics2D) g;
+		
+		if(angle > -180 && angle < -10) 	drawPlayer2(g2d, firstArea, power);
+		else if(angle >= -10 && angle <= 10) drawPlayer2(g2d, secondArea, power);
+		else if(angle > 10 && angle < 45)	 drawPlayer2(g2d, thirdArea, power);
+		else if(angle >= 45 && angle <= 80)  drawPlayer2(g2d, fourthArea, power);
+		else if(angle > 80 && angle <= 180)	 drawPlayer2(g2d, fifthArea, power);
 	}
 }

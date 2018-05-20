@@ -25,6 +25,8 @@ import javax.swing.JTextField;
 public class PlayArea extends JPanel {
 	int cons=1;
 	static int count=1;
+	static int mode;
+	static int turn=0;
 	
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force;
 	boolean whenDraw = false;
@@ -35,11 +37,11 @@ public class PlayArea extends JPanel {
 	//int randomWidth=0; 
 	//int randomHeigth=0;
 	
-	Player player;
+	Player player, player2;
 	Arrow arrow;
 	ArrayList<Arrow> arrows;
 
-	public PlayArea(Image image, JTextField shotAngle, JTextField shotStrength)
+	public PlayArea(Image image, JTextField shotAngle, JTextField shotStrength, int m)
 	{
 		
 		setImage( image );
@@ -55,7 +57,9 @@ public class PlayArea extends JPanel {
 		xPos = 200;				//pozycja pocz�tkowa w x
 		yPos = 350;				//pozycja pocz�tkowa w y
 		player = new Player(this);
+		player2 = new Player(this);
 		arrows = new ArrayList<Arrow>();
+		mode=m;
 		
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -73,7 +77,9 @@ public class PlayArea extends JPanel {
 				exec.execute(arrow);
 				exec.shutdown();
 				arrows.add(arrow);
-				repaint();
+				repaint();				
+				if(turn==0) turn=1;
+				else if(turn==1) turn=0;				
 			}
 		});
 		addMouseMotionListener(new MouseAdapter() {
@@ -154,11 +160,36 @@ public class PlayArea extends JPanel {
 		}
 		
 		public Point arrowStartPos(double angle) {
-			if(angle > -180 && angle < -10) 		return new Point(player.xPos + 122, player.yPos + 129);
-			else if(angle >= -10 && angle <= 10) 	return new Point(player.xPos + 122, player.yPos + 83);
-			else if(angle > 10 && angle < 45)		return new Point(player.xPos + 125, player.yPos + 61);
-			else if(angle >= 45 && angle <= 80)  	return new Point(player.xPos + 110, player.yPos + 44);
-			else /*(angle > 80 && angle <= 180)	 */	return new Point(player.xPos + 70, player.yPos + 28);
+			if(mode==1)
+			{
+				if(turn==0)
+				{
+					if(angle > -180 && angle < -10) 		return new Point(player.xPos + 122, player.yPos + 129);
+					else if(angle >= -10 && angle <= 10) 	return new Point(player.xPos + 122, player.yPos + 83);
+					else if(angle > 10 && angle < 45)		return new Point(player.xPos + 125, player.yPos + 61);
+					else if(angle >= 45 && angle <= 80)  	return new Point(player.xPos + 110, player.yPos + 44);
+					else /*(angle > 80 && angle <= 180)	 */	return new Point(player.xPos + 70, player.yPos + 28);
+				}
+				else if(turn==1)
+				{
+					if(angle > -180 && angle < -10) 		return new Point(player2.xPos1 + 122, player2.yPos1 + 129);
+					else if(angle >= -10 && angle <= 10) 	return new Point(player2.xPos1 + 122, player2.yPos1 + 83);
+					else if(angle > 10 && angle < 45)		return new Point(player2.xPos1 + 125, player2.yPos1 + 61);
+					else if(angle >= 45 && angle <= 80)  	return new Point(player2.xPos1 + 110, player2.yPos1 + 44);
+					else /*(angle > 80 && angle <= 180)	 */	return new Point(player2.xPos1 + 70, player2.yPos1 + 28);
+				}
+				else return new Point(player.xPos + 70, player.yPos + 28);
+			}
+			else if(mode==0)
+			{
+				if(angle > -180 && angle < -10) 		return new Point(player.xPos + 122, player.yPos + 129);
+				else if(angle >= -10 && angle <= 10) 	return new Point(player.xPos + 122, player.yPos + 83);
+				else if(angle > 10 && angle < 45)		return new Point(player.xPos + 125, player.yPos + 61);
+				else if(angle >= 45 && angle <= 80)  	return new Point(player.xPos + 110, player.yPos + 44);
+				else /*(angle > 80 && angle <= 180)	 */	return new Point(player.xPos + 70, player.yPos + 28);
+				
+			}
+			else return new Point(player.xPos + 70, player.yPos + 28);
 		}
 		public void paintComponent(Graphics g){ 
 			super.paintComponent(g);
@@ -181,9 +212,30 @@ public class PlayArea extends JPanel {
 				g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 				g.drawOval(startPoint.x - 10, startPoint.y - 10, 20, 20);
 			}
-			player.drawPlayer(g2d, player.firstArea, forceToPower(force));
-			player.prepareToShot(g2d, alpha, forceToPower(force));
 			
+			if(mode==0)
+			{
+				player.drawPlayer(g2d, player.firstArea, forceToPower(force));
+				player.prepareToShot(g2d, alpha, forceToPower(force));
+			}
+			
+			if(mode==1)
+			{
+				if(turn==0)
+				{
+					player.drawPlayer(g2d, player.firstArea, forceToPower(force));
+					player.prepareToShot(g2d, alpha, forceToPower(force));
+					
+					player2.drawPlayer2(g2d, player2.firstArea, forceToPower(force));
+				}
+				else if(turn==1)
+				{			
+					player2.drawPlayer2(g2d, player2.firstArea, forceToPower(force));
+					player2.prepareToShot2(g2d, alpha, forceToPower(force));
+					
+					player.drawPlayer(g2d, player.firstArea, forceToPower(force));
+				}
+			}
 			
 			g2d.fillRect(Arrow.randomX, Arrow.randomY, Arrow.randomWidth, Arrow.randomHeigth);
 			
