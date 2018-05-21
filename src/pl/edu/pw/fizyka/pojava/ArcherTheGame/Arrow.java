@@ -37,10 +37,10 @@ public class Arrow implements Runnable {
 		if(counter % 5 == 0)
 		{
 			Random rand = new Random();
-			randomX = rand.nextInt(300);
-			randomY = rand.nextInt(300);
-			randomWidth = rand.nextInt(50);
-			randomHeigth = rand.nextInt(50);
+			randomX = 300+rand.nextInt(50);
+			randomY = 200+rand.nextInt(50);
+			randomWidth = 100+rand.nextInt(10);
+			randomHeigth = 100+rand.nextInt(10);
 		}
 
 		coeff = 1;

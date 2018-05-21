@@ -226,14 +226,14 @@ public class PlayArea extends JPanel {
 					player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 					player.prepareToShot(g2d, alpha, forceToPower(force));
 					
-					player2.drawPlayer2(g2d, player2.firstArea, forceToPower(force));
+					player2.drawPlayer2(g2d, player2.firstArea, 1);
 				}
 				else if(turn==1)
 				{			
 					player2.drawPlayer2(g2d, player2.firstArea, forceToPower(force));
 					player2.prepareToShot2(g2d, alpha, forceToPower(force));
 					
-					player.drawPlayer(g2d, player.firstArea, forceToPower(force));
+					player.drawPlayer(g2d, player.firstArea, 1);
 				}
 			}
 			
