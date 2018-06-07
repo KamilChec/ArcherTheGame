@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class Arrow implements Runnable {
 	BufferedImage arrowImage;
 	
-	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force;
+	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force, wind, wind1;
 	int width, length, arrowWidth, arrowLength;
 	boolean shoot = true;
 	boolean fly = true;
@@ -55,7 +55,11 @@ public class Arrow implements Runnable {
 		diameter = 0.1;
 		mass = 0.1;
 		a = coeff*diameter*ro*mass;
-		v0 = force;    	
+		v0 = force;
+		
+		wind=0;
+		wind1=0;
+		
 		this.xPos = xPos;
 		this.yPos = yPos;
 		try {
@@ -73,11 +77,24 @@ public class Arrow implements Runnable {
 		xPos += vx*time;
 		yPos -= vy*time;
 		
-		dVx = a*vx*time/mass;
+		dVx = a*vx*time/mass+(wind-wind1)/100;
 		dVy = a*vy*time/mass - g*time;
+		
+		System.out.println("wind: " + Double.toString(((wind-wind1)/100)));
+		System.out.println("dvx: " + Double.toString((dVx)));
 
 		vx -= dVx;
 		vy += dVy;
+	}
+	
+	public void setWind()
+	{
+		Random r = new Random();
+		wind=1+r.nextInt(10);
+		wind1=-1+r.nextInt(10);
+		
+		System.out.println("wind: " + Double.toString((wind)));
+		System.out.println("wind1: " + Double.toString((wind1)));
 	}
 
 	@Override

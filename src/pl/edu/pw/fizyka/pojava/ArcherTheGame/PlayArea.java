@@ -22,7 +22,7 @@ public class PlayArea extends JPanel {
 	int cons=1;
 	static int count=1;
 	static int mode;
-	static int turn=0;
+	static int turn=0;	
 	
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force;
 	boolean whenDraw = false;
@@ -63,6 +63,7 @@ public class PlayArea extends JPanel {
 		obstacle = new Obstacle();
 		mode=m;
 		
+		
 		ExecutorService exec = Executors.newSingleThreadExecutor();
 		exec.execute(enemy);
 		exec.shutdown();
@@ -79,6 +80,8 @@ public class PlayArea extends JPanel {
 				shotAngle.setText("000");
 				shotStrength.setText("000");
 				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y);
+				arrow.setWind();				
+				
 				ExecutorService exec = Executors.newSingleThreadExecutor();
 				exec.execute(arrow);
 				exec.shutdown();
@@ -166,6 +169,7 @@ public class PlayArea extends JPanel {
 				
 		}
 		
+				
 		public Point arrowStartPos(double angle) {
 			if(mode==1)
 			{
