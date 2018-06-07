@@ -13,11 +13,13 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+
+
 public class Arrow implements Runnable {
 	BufferedImage arrowImage;
 	
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force;
-	int width, length;
+	int width, length, arrowWidth, arrowLength;
 	boolean shoot = true;
 	boolean fly = true;
 	static int counter=0;
@@ -27,8 +29,12 @@ public class Arrow implements Runnable {
 	static int randomHeigth=0;
 	
 	JPanel panel;
+	Obstacle obstacle;
+	Enemy enemy;
 	
 	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos ) {
+		obstacle = new Obstacle();
+		enemy = new Enemy(panel);
 		this.alpha = alpha;
 		this.panel = panel;
 		width = panel.getWidth();
@@ -58,6 +64,9 @@ public class Arrow implements Runnable {
 			e.printStackTrace();
 		}
 		counter++;
+		
+		arrowWidth = (int) (arrowImage.getWidth()*0.2);
+		arrowLength = (int) (arrowImage.getHeight()*0.2);
 	}
 	
 	public void Translate(double time) {		
@@ -80,7 +89,8 @@ public class Arrow implements Runnable {
 			shoot = false;
 		}
 		while(fly) {
-			Translate(0.001);
+//			Translate(0.001);
+			Translate(0.01);          // testowo
 			try {
 				Thread.sleep(1);
 			} 
@@ -90,12 +100,20 @@ public class Arrow implements Runnable {
 			panel.repaint();
 			if(xPos > width || yPos > length) fly = false;
 			if(xPos < 0 || yPos < 0) fly = false;
+			if((xPos  > obstacle.xPos - 15 && xPos < obstacle.xPos + obstacle.width) &&
+					(yPos < obstacle.yPos + obstacle.lenght && yPos > obstacle.yPos - 5)) fly = false;
+			if((xPos  > enemy.xPos + 5 && xPos < enemy.xPos + enemy.width) &&
+					(yPos < enemy.yPos + enemy.length - 15 && yPos > enemy.yPos - 5)) {
+						fly = false;
+						enemy.hit();
+					}
+			
 			
 			if(xPos>randomX && xPos<randomX+randomWidth)
 			{				
 				if(yPos>randomY && yPos<randomY+randomHeigth)
 				{					
-					fly=false;
+//					fly=false;         // testowo
 				}
 			}
 			

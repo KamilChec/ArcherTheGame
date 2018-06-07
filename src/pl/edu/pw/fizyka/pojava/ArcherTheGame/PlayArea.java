@@ -18,10 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-
-
-
-
 public class PlayArea extends JPanel {
 	int cons=1;
 	static int count=1;
@@ -39,11 +35,14 @@ public class PlayArea extends JPanel {
 	
 	Player player, player2;
 	Arrow arrow;
+	Obstacle obstacle;
+	Enemy enemy;
 	ArrayList<Arrow> arrows;
+	ArrayList<Obstacle> obstacles;
 
 	public PlayArea(Image image, JTextField shotAngle, JTextField shotStrength, int m)
 	{
-		
+		setSize(new Dimension(1000, 400));
 		setImage( image );
 		setLayout( new BorderLayout() );
 		coeff = 1;			//wsp�czynnik oporu zale�ny od kszta�tu
@@ -59,7 +58,14 @@ public class PlayArea extends JPanel {
 		player = new Player(this);
 		player2 = new Player(this);
 		arrows = new ArrayList<Arrow>();
+		enemy = new Enemy(this);
+		obstacles = new ArrayList<Obstacle>();
+		obstacle = new Obstacle();
 		mode=m;
+		
+		ExecutorService exec = Executors.newSingleThreadExecutor();
+		exec.execute(enemy);
+		exec.shutdown();
 		
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -77,6 +83,7 @@ public class PlayArea extends JPanel {
 				exec.execute(arrow);
 				exec.shutdown();
 				arrows.add(arrow);
+				obstacles.add(new Obstacle());
 				repaint();				
 				if(turn==0) turn=1;
 				else if(turn==1) turn=0;				
@@ -236,11 +243,15 @@ public class PlayArea extends JPanel {
 					player.drawPlayer(g2d, player.firstArea, 1);
 				}
 			}
-			
 			g2d.fillRect(Arrow.randomX, Arrow.randomY, Arrow.randomWidth, Arrow.randomHeigth);
 			
 			for(Arrow arrow : arrows) {
 				arrow.drawArrow(g2d);
 			}
+			obstacle.drawObstacle(g2d);
+			for(Obstacle obstacle : obstacles) {
+				obstacle.drawObstacle(g2d);
+			}
+		    enemy.drawEnemy(g2d);
 	    }	
 }
