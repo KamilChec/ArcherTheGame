@@ -38,7 +38,7 @@ public class PlayArea extends JPanel {
 	Obstacle obstacle;
 	Enemy enemy;
 	ArrayList<Arrow> arrows;
-	ArrayList<Obstacle> obstacles;
+
 
 	public PlayArea(Image image, JTextField shotAngle, JTextField shotStrength, int m)
 	{
@@ -59,13 +59,12 @@ public class PlayArea extends JPanel {
 		player2 = new Player(this);
 		arrows = new ArrayList<Arrow>();
 		enemy = new Enemy(this);
-		obstacles = new ArrayList<Obstacle>();
-		obstacle = new Obstacle();
+		obstacle = new Obstacle(this);
 		mode=m;
 		
-		
-		ExecutorService exec = Executors.newSingleThreadExecutor();
+		ExecutorService exec = Executors.newFixedThreadPool(2);
 		exec.execute(enemy);
+		exec.execute(obstacle);
 		exec.shutdown();
 		
 		addMouseListener(new MouseAdapter() {
@@ -86,7 +85,6 @@ public class PlayArea extends JPanel {
 				exec.execute(arrow);
 				exec.shutdown();
 				arrows.add(arrow);
-				obstacles.add(new Obstacle());
 				repaint();				
 				if(turn==0) turn=1;
 				else if(turn==1) turn=0;				
@@ -251,11 +249,22 @@ public class PlayArea extends JPanel {
 			
 			for(Arrow arrow : arrows) {
 				arrow.drawArrow(g2d);
+				if((arrow.xPos  > obstacle.xPos - 15 && arrow.xPos < obstacle.xPos + obstacle.width) &&
+						(arrow.yPos < obstacle.yPos + obstacle.lenght && arrow.yPos > obstacle.yPos - 5)) {
+					arrow.hit = false;
+					arrow.stuckedArrow(obstacle.yVelocity);
+				}
+				if((arrow.xPos  > enemy.xPos + 5 && arrow.xPos < enemy.xPos + enemy.width) &&
+						(arrow.yPos < enemy.yPos + enemy.length - 15 && arrow.yPos > enemy.yPos - 5)) {
+					if(arrow.hit) {
+							arrow.hit = false;
+							enemy.hit();
+					}
+					arrow.stuckedArrow(enemy.xVelocity, enemy.yVelocity);
+				}
 			}
 			obstacle.drawObstacle(g2d);
-			for(Obstacle obstacle : obstacles) {
-				obstacle.drawObstacle(g2d);
-			}
 		    enemy.drawEnemy(g2d);
+		    enemy.drawHealth(g2d);
 	    }	
 }

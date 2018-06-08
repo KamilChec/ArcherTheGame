@@ -12,14 +12,15 @@ import javax.swing.JPanel;
 public class Enemy implements Runnable {
 	
 	int xPos, yPos;
-	double yVelocity, xVelocity;
-	int health = 100;
+	int yVelocity, xVelocity;
+	volatile int health = 6;
 	List<BufferedImage> beeImages;
+	List<BufferedImage> healthImages;
 	int imageIndex = 0;
 	JPanel panel;
 	int width, length;
 	int panelWidth, panelLength;
-	AudioPlayer hitSound;
+	AudioPlayer hitSound, victory;
 	
 	public Enemy(JPanel panel) {
 		this.panel = panel;
@@ -30,11 +31,21 @@ public class Enemy implements Runnable {
 		yVelocity = 5;
 		xVelocity = -2;
 		beeImages = new ArrayList<BufferedImage>();
+		healthImages = new ArrayList<BufferedImage>();
 		hitSound = new AudioPlayer("/audio/enemyHit.mp3");
+		victory = new AudioPlayer("/audio/victory.mp3");
 		for (int i = 0; i < 6; i++) {
 			String image = "/images/beeImages/" + (i+1) + ".png";
 			try {
 				beeImages.add(ImageIO.read(getClass().getResource(image)));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		for(int i = 0; i < 7; i++) {
+			String image = "/images/healthBar/" + (i) + ".png";
+			try {
+				healthImages.add(ImageIO.read(getClass().getResource(image)));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -48,16 +59,28 @@ public class Enemy implements Runnable {
         if (imageIndex < 6) imageIndex++;
         if (imageIndex == 6) imageIndex = 0;
     }
+	public void drawHealth(Graphics2D g2d) {
+		int barXPos = xPos + 30;
+		int barYPos = yPos - 30;
+		g2d.drawImage(healthImages.get(health),barXPos, barYPos, panel);
+	}
 	public void hit() {
-		health -= 20;
+		health--;
+		if(health == 0) {
+			health = 6;
+			kill();
+		}
 		hitSound.play();
+	}
+	public void kill() {
+		victory.play();
 	}
 
 	@Override
 	public void run() {
 		while(true) {
-//			yPos += yVelocity;
-//			xPos += xVelocity;
+			yPos += yVelocity;
+			xPos += xVelocity;
 
 			if(xPos < panelWidth*0.6) {
 				xVelocity = 2;

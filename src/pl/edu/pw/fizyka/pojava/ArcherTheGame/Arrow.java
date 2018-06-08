@@ -20,8 +20,12 @@ public class Arrow implements Runnable {
 	
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force, wind, wind1;
 	int width, length, arrowWidth, arrowLength;
+	int obstacleVelocity = 0;
+	int enemyXVelocity = 0;
+	int enemyYVelocity = 0;
 	boolean shoot = true;
 	boolean fly = true;
+	boolean hit = true;
 	static int counter=0;
 	static int randomX=0;
 	static int randomY=0;
@@ -33,7 +37,7 @@ public class Arrow implements Runnable {
 	Enemy enemy;
 	
 	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos ) {
-		obstacle = new Obstacle();
+		obstacle = new Obstacle(panel);
 		enemy = new Enemy(panel);
 		this.alpha = alpha;
 		this.panel = panel;
@@ -106,10 +110,11 @@ public class Arrow implements Runnable {
 			shoot = false;
 		}
 		while(fly) {
-//			Translate(0.001);
-			Translate(0.01);          // testowo
+//			if(hit) Translate(0.001);
+			if(hit) Translate(0.01);       // testowo
 			try {
-				Thread.sleep(1);
+				if(hit) Thread.sleep(1);
+				if(!hit) Thread.sleep(80);
 			} 
 			catch (InterruptedException e) {
 				e.printStackTrace();
@@ -117,13 +122,11 @@ public class Arrow implements Runnable {
 			panel.repaint();
 			if(xPos > width || yPos > length) fly = false;
 			if(xPos < 0 || yPos < 0) fly = false;
-			if((xPos  > obstacle.xPos - 15 && xPos < obstacle.xPos + obstacle.width) &&
-					(yPos < obstacle.yPos + obstacle.lenght && yPos > obstacle.yPos - 5)) fly = false;
-			if((xPos  > enemy.xPos + 5 && xPos < enemy.xPos + enemy.width) &&
-					(yPos < enemy.yPos + enemy.length - 15 && yPos > enemy.yPos - 5)) {
-						fly = false;
-						enemy.hit();
-					}
+			if(!hit) {
+			   	yPos += obstacleVelocity;
+			   	yPos += enemyYVelocity;
+			   	xPos += enemyXVelocity;
+		    }
 			
 			
 			if(xPos>randomX && xPos<randomX+randomWidth)
@@ -133,12 +136,7 @@ public class Arrow implements Runnable {
 //					fly=false;         // testowo
 				}
 			}
-			
-			
-			
 		}
-
-
 	}
 	
 	public void drawArrow(Graphics2D g2d) {
@@ -155,6 +153,14 @@ public class Arrow implements Runnable {
 		   g2d.drawImage(arrowImage, (int) xPos, (int) yPos, 78, 7, panel);
 		   g2d.setTransform(backup);
 
+	}
+	public void stuckedArrow(int yVelocity) {
+		obstacleVelocity = yVelocity;
+		
+	}
+	public void stuckedArrow(int xVelocity,int yVelocity) {
+		enemyXVelocity = xVelocity;
+		enemyYVelocity = yVelocity;
 	}
 
 		
