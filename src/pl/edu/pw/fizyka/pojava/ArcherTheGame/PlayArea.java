@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 public class PlayArea extends JPanel {
 	Player player;
 	Player player1, player2;
-	double alpha, force;
+	double alpha, force, wind;
 	int turn = 0;
 	int tagWidth, tagLenght;
 	int tagIndex = 0;
@@ -39,7 +39,7 @@ public class PlayArea extends JPanel {
 	boolean drawobstacle = false;
 	boolean multiplayer = false;
 	Point startPoint, endPoint;
-	BufferedImage backgroundImage, tagImage;
+	BufferedImage backgroundImage, tagImage, windArrow, windArrow1;
 	
 	Arrow arrow;
 	Obstacle obstacle;
@@ -49,9 +49,11 @@ public class PlayArea extends JPanel {
 	ArrayList<Arrow> arrows;
 	ArrayList<Arrow> arrows1;
 	ArrayList<Arrow> arrows2;
+	
+	JLabel windLabel;
 
 	//---Singleplayer
-	PlayArea(JLabel shotAngle, JLabel shotStrength, JFrame currentGame) {
+	PlayArea(JLabel shotAngle, JLabel shotStrength, SinglePlayerGame currentGame) {
 	
 		
 		setSize(new Dimension(1000, 400));
@@ -61,10 +63,27 @@ public class PlayArea extends JPanel {
 		arrows = new ArrayList<Arrow>();
 		obstacle = new Obstacle(this);
 		
+		windLabel=new JLabel();
+		windLabel.setAlignmentX(980);
+		windLabel.setAlignmentY(10);
+		this.add(windLabel);
+		setWind();
+		
 		try {
 			backgroundImage = ImageIO.read(getClass().getResource("/images/gameBackground2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		
+		try {
+			windArrow = ImageIO.read(getClass().getResource("/images/windArrow.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow1 = ImageIO.read(getClass().getResource("/images/windArrow1.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
 		}
 
 		
@@ -83,11 +102,23 @@ public class PlayArea extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				whenDraw = false;
 				shot = true;
-				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false);
+				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind);
+							
+				setWind();				
+				
+				
+				arrow.diameter=currentGame.hold.diameter;
+				arrow.mass=currentGame.hold.mass;
+				arrow.coeff=currentGame.hold.coeff;
+				arrow.g=currentGame.hold.g;
+				arrow.ro=currentGame.hold.ro;		
+				
+				
 				ExecutorService exec = Executors.newSingleThreadExecutor();
-				exec.execute(arrow);
+				exec.execute(arrow);				
 				exec.shutdown();
 				arrows.add(arrow);
+				
 				
 				repaint();
 			}
@@ -105,7 +136,7 @@ public class PlayArea extends JPanel {
 		});
 	}
 	//---Multiplayer
-	PlayArea(JLabel shotAngle1, JLabel shotStrength1, JLabel shotAngle2, JLabel shotStrength2, JFrame currentGame) {
+	PlayArea(JLabel shotAngle1, JLabel shotStrength1, JLabel shotAngle2, JLabel shotStrength2, MultiPlayerGame currentGame) {
 		setSize(new Dimension(1000, 400));
 		this.currentGame = currentGame;
 		multiplayer = true;
@@ -139,14 +170,30 @@ public class PlayArea extends JPanel {
 				whenDraw = false;
 				shot = true;
 				if((turn % 2) == 0) {
-					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false);
+					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind);
+					
+					
+					arrow.diameter=currentGame.hold.diameter;
+					arrow.mass=currentGame.hold.mass;
+					arrow.coeff=currentGame.hold.coeff;
+					arrow.g=currentGame.hold.g;
+					arrow.ro=currentGame.hold.ro;
+					
 					ExecutorService exec = Executors.newSingleThreadExecutor();
 					exec.execute(arrow);
 					exec.shutdown();
 					arrows1.add(arrow);
 					
 				} else {
-					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, multiplayer);
+					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, multiplayer, wind);
+					
+					
+					arrow.diameter=currentGame.hold.diameter;
+					arrow.mass=currentGame.hold.mass;
+					arrow.coeff=currentGame.hold.coeff;
+					arrow.g=currentGame.hold.g;
+					arrow.ro=currentGame.hold.ro;
+					
 					ExecutorService exec = Executors.newSingleThreadExecutor();
 					exec.execute(arrow);
 					exec.shutdown();
@@ -227,7 +274,16 @@ public class PlayArea extends JPanel {
 			return 0;
 		}
 			
-	}		
+	}	
+	public void setWind()
+	{
+		Random r = new Random();
+		wind=r.nextDouble()+r.nextDouble()-1;
+		windLabel.setText(Double.toString(Math.round(Math.abs(wind*10))));
+		
+	}
+	
+	
 	public Point arrowStartPos(double angle) {
 		if(multiplayer) {
 			if((turn % 2) == 0) {
@@ -255,11 +311,28 @@ public class PlayArea extends JPanel {
 		super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D)g;
 	    g2d.setColor(Color.BLACK);
+	    
+	    
+	    
 	    if(multiplayer) {
 	    	g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 	    } else {
 	    	g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 	    }
+	    
+	    if(wind<0) {
+	    	 g2d.drawImage(windArrow, 475, 0, 40, 10, this);
+	    }
+	    else if(wind>0)
+	    {
+	    	g2d.drawImage(windArrow1, 475, 0, 40, 10, this);
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
 //	    g2d.drawImage(targetImage, 750, 250, 111, 168, this);
 		if(whenDraw) {
 			g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);

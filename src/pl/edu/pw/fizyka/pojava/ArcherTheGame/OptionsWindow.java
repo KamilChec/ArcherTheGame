@@ -30,17 +30,17 @@ public class OptionsWindow extends JFrame {
 		
 		temp=10;
 		
-		sl1 = new JSlider(0, 10, 1);		
-		sl2 = new JSlider(0, 10, 1);		
-		sl3 = new JSlider(0, 20, 10);		
-		sl4 = new JSlider(0, 150, 98);		
-		sl5 = new JSlider(0, 30, 12);
+		sl1 = new JSlider(0, 10, (int) (h.diameter*temp));		
+		sl2 = new JSlider(0, 10, (int) (h.mass*temp));		
+		sl3 = new JSlider(0, 20, (int) (h.coeff*temp));		
+		sl4 = new JSlider(0, 150, (int) (h.g*temp));		
+		sl5 = new JSlider(0, 30, (int) (h.ro*temp));
 		
-		l1 = new JLabel("Srednica: " + Double.toString(0.1));
-		l2 = new JLabel("Masa: " + Double.toString(0.1));
-		l3 = new JLabel("Wspolczynnik: " + Double.toString(1));
-		l4 = new JLabel("Grawitacja: " + Double.toString(9.8));
-		l5 = new JLabel("Gestosc: " + Double.toString(1.2));
+		l1 = new JLabel("Srednica: " + Double.toString(h.diameter));
+		l2 = new JLabel("Masa: " + Double.toString(h.mass));
+		l3 = new JLabel("Wspolczynnik: " + Double.toString(h.coeff));
+		l4 = new JLabel("Grawitacja: " + Double.toString(h.g));
+		l5 = new JLabel("Gestosc: " + Double.toString(h.ro));
 		
 		this.add(l1);
 		this.add(sl1);

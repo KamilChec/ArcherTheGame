@@ -115,7 +115,7 @@ public class SinglePlayerGame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				options = new OptionsWindow(hold);				
-				options.setVisible(true);		
+				options.setVisible(true);				
 				
 			}			
 		});

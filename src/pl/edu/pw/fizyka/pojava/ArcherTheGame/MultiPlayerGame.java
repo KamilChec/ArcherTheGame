@@ -31,6 +31,8 @@ public class MultiPlayerGame extends JFrame {
 	JLabel angleLabel1, angleLabel2, forceLabel1, forceLabel2;
 	PlayArea centrePanel;
 	Image im;
+	DataHolder hold;	
+	OptionsWindow options;
 	
 	public void CloseMP(){
 		super.dispose();
@@ -41,6 +43,7 @@ public class MultiPlayerGame extends JFrame {
 		setSize(1000, 600);
 		setResizable(false);
 		setLocationRelativeTo(null);
+		hold = new DataHolder();
 		
 		//---------Top-----------
 		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);		
@@ -84,10 +87,14 @@ public class MultiPlayerGame extends JFrame {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		
+				options = new OptionsWindow(hold);				
+				options.setVisible(true);		
+				
 			}			
 		});
 		//temp*
+		
+		
 		
 		bottomPanel.add(optionsButton);
 		exitButton = new JButton("Exit");

@@ -37,7 +37,6 @@ public class EndGame extends JFrame {
 		this.currentGame = currentGame;
 		this.winner = winner;
 		
-		currentGame.setEnabled(false);
 		add(center = new JPanel(), BorderLayout.CENTER);
 		winnerLabel = new JLabel();
 		winnerLabel.setFont(new Font("MAKEN", Font.BOLD, 30));
@@ -67,7 +66,7 @@ public class EndGame extends JFrame {
 		this.enemy = enemy;
 		this.currentGame = currentGame;
 		
-		currentGame.setEnabled(false);
+		
 		add(center = new JPanel(), BorderLayout.CENTER);
 		BtnListener listener = new BtnListener();
 		winnerLabel = new JLabel("You won!");
@@ -87,21 +86,21 @@ public class EndGame extends JFrame {
 			Object source = e.getSource();
 			if(source == continueBtnMulti) {
 				currentGame.dispose();
-				EndGame.this.setVisible(false);
+				EndGame.this.dispose();
 
 				MultiPlayerGame multi= new MultiPlayerGame();
 				multi.setVisible(true);
 				
 			} else if (source == continueBtnSingle){
 				currentGame.dispose();
-				EndGame.this.setVisible(false);
+				EndGame.this.dispose();
 				SinglePlayerGame single = new SinglePlayerGame();
 				single.setVisible(true);
 			} else if( source == exitBtn) {
-				currentGame.setVisible(false);
+				currentGame.dispose();
 				menu = new StartMenu();
 				menu.setVisible(true);
-				EndGame.this.setVisible(false);
+				EndGame.this.dispose();
 			}
 			
 		}

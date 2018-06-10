@@ -40,7 +40,7 @@ public class Arrow implements Runnable {
 	Obstacle obstacle;
 	Enemy enemy;
 	
-	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos,  boolean multiplayer) {
+	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos,  boolean multiplayer, double wind) {
 		obstacle = new Obstacle(panel);
 		enemy = new Enemy(panel);
 		this.alpha = alpha;
@@ -48,6 +48,7 @@ public class Arrow implements Runnable {
 		this.multiplayer = multiplayer;
 		width = panel.getWidth();
 		length = panel.getHeight();
+		this.wind=wind;
 		
 		if(counter % 5 == 0)
 		{
@@ -64,7 +65,7 @@ public class Arrow implements Runnable {
 		diameter = 0.1;
 		mass = 0.1;
 		a = coeff*diameter*ro*mass;
-		v0 = force;
+		v0 = force;		
 		
 		wind=0;
 		wind1=0;
@@ -104,22 +105,19 @@ public class Arrow implements Runnable {
 		}
 		yPos -= vy*time;
 		
-		dVx = a*vx*time/mass;
-		dVy = a*vy*time/mass - g*time;
+		dVx = a*vx*time/mass + wind/70;
+		dVy = a*vy*time/mass + g*time;
 
 		vx -= dVx;
-		vy += dVy;
+		vy -= dVy;
 	}
 	
-	public void setWind()
-	{
-		Random r = new Random();
-		wind=1+r.nextInt(10);
-		wind1=-1+r.nextInt(10);
-		
-		System.out.println("wind: " + Double.toString((wind)));
-		System.out.println("wind1: " + Double.toString((wind1)));
-	}
+//	public void setWind()
+//	{
+//		Random r = new Random();
+//		wind=r.nextDouble()+r.nextDouble()-1;
+//		
+//	}
 
 	@Override
 	public void run() {
@@ -127,6 +125,13 @@ public class Arrow implements Runnable {
 			beta = alpha;
 			vx = v0*Math.cos(Math.toRadians(alpha));
 			vy = v0*Math.sin(Math.toRadians(alpha));
+			
+			System.out.println(Double.toString(vx));
+			System.out.println(Double.toString(vy));
+			
+			System.out.println(Double.toString(xPos));
+			System.out.println(Double.toString(yPos));
+			
 			shoot = false;
 		}
 		while(fly) {
