@@ -13,7 +13,7 @@ public class Enemy implements Runnable {
 	
 	int xPos, yPos;
 	int yVelocity, xVelocity;
-	volatile int health = 6;
+	volatile int health = 1;
 	List<BufferedImage> beeImages;
 	List<BufferedImage> healthImages;
 	int imageIndex = 0;
@@ -32,7 +32,7 @@ public class Enemy implements Runnable {
 		xVelocity = -2;
 		beeImages = new ArrayList<BufferedImage>();
 		healthImages = new ArrayList<BufferedImage>();
-		hitSound = new AudioPlayer("/audio/enemyHit.mp3");
+		hitSound = new AudioPlayer("/audio/classic_hurt.mp3");
 		victory = new AudioPlayer("/audio/victory.mp3");
 		for (int i = 0; i < 6; i++) {
 			String image = "/images/beeImages/" + (i+1) + ".png";
@@ -67,13 +67,15 @@ public class Enemy implements Runnable {
 	public void hit() {
 		health--;
 		if(health == 0) {
-			health = 6;
 			kill();
 		}
 		hitSound.play();
 	}
 	public void kill() {
 		victory.play();
+	}
+	public void continueGame() {
+		health = 6;
 	}
 
 	@Override

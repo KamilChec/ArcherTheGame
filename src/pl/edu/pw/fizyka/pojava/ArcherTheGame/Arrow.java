@@ -16,16 +16,20 @@ import javax.swing.JPanel;
 
 
 public class Arrow implements Runnable {
-	BufferedImage arrowImage;
+	BufferedImage arrowImage1;
+	BufferedImage arrowImage2;
 	
 	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force, wind, wind1;
 	int width, length, arrowWidth, arrowLength;
 	int obstacleVelocity = 0;
 	int enemyXVelocity = 0;
 	int enemyYVelocity = 0;
+	boolean multiplayer;
 	boolean shoot = true;
 	boolean fly = true;
 	boolean hit = true;
+	
+	
 	static int counter=0;
 	static int randomX=0;
 	static int randomY=0;
@@ -36,11 +40,12 @@ public class Arrow implements Runnable {
 	Obstacle obstacle;
 	Enemy enemy;
 	
-	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos ) {
+	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos,  boolean multiplayer) {
 		obstacle = new Obstacle(panel);
 		enemy = new Enemy(panel);
 		this.alpha = alpha;
 		this.panel = panel;
+		this.multiplayer = multiplayer;
 		width = panel.getWidth();
 		length = panel.getHeight();
 		
@@ -67,25 +72,40 @@ public class Arrow implements Runnable {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		try {
-			arrowImage = ImageIO.read(getClass().getResource("/images/arrow1.png"));
+			arrowImage1 = ImageIO.read(getClass().getResource("/images/arrow1.png"));
+			arrowImage2 = ImageIO.read(getClass().getResource("/images/arrow2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		counter++;
 		
-		arrowWidth = (int) (arrowImage.getWidth()*0.2);
-		arrowLength = (int) (arrowImage.getHeight()*0.2);
+		arrowWidth = (int) (arrowImage1.getWidth()*0.3);
+		arrowLength = (int) (arrowImage1.getHeight()*0.3);
 	}
 	
-	public void Translate(double time) {		
-		xPos += vx*time;
+//	public void Translate(double time) {		
+//		xPos += vx*time;
+//		yPos -= vy*time;
+//		
+//		dVx = a*vx*time/mass+(wind-wind1)/100;
+//		dVy = a*vy*time/mass - g*time;
+//		
+//		System.out.println("wind: " + Double.toString(((wind-wind1)/100)));
+//		System.out.println("dvx: " + Double.toString((dVx)));
+//
+//		vx -= dVx;
+//		vy += dVy;
+//	}
+	public void Translate(double time) {
+		if(multiplayer) {
+			xPos -= vx*time;
+		} else { 
+			xPos += vx*time;
+		}
 		yPos -= vy*time;
 		
-		dVx = a*vx*time/mass+(wind-wind1)/100;
+		dVx = a*vx*time/mass;
 		dVy = a*vy*time/mass - g*time;
-		
-		System.out.println("wind: " + Double.toString(((wind-wind1)/100)));
-		System.out.println("dvx: " + Double.toString((dVx)));
 
 		vx -= dVx;
 		vy += dVy;
@@ -147,11 +167,19 @@ public class Arrow implements Runnable {
 //		g2d.fill(rotatedRect);
 //		g2d.draw(rotatedRect);
 		
-		   AffineTransform backup = g2d.getTransform();
-		   AffineTransform at = AffineTransform.getRotateInstance(-Math.atan(vy/vx), (int) xPos, (int) yPos);
-		   g2d.setTransform(at);
-		   g2d.drawImage(arrowImage, (int) xPos, (int) yPos, 78, 7, panel);
-		   g2d.setTransform(backup);
+		if(multiplayer) {
+		    AffineTransform backup = g2d.getTransform();
+		    AffineTransform at = AffineTransform.getRotateInstance(Math.atan(vy/vx), (int) xPos , (int) yPos );
+		    g2d.setTransform(at);
+		    g2d.drawImage(arrowImage2, (int) xPos, (int) yPos, arrowWidth, arrowLength, panel);
+		    g2d.setTransform(backup);
+		} else {
+		    AffineTransform backup = g2d.getTransform();
+		    AffineTransform at = AffineTransform.getRotateInstance(-Math.atan(vy/vx), (int) xPos , (int) yPos );
+		    g2d.setTransform(at);
+		    g2d.drawImage(arrowImage1, (int) xPos, (int) yPos, arrowWidth, arrowLength, panel);
+		    g2d.setTransform(backup);
+		}
 
 	}
 	public void stuckedArrow(int yVelocity) {

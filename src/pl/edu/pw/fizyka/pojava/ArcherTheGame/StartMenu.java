@@ -131,6 +131,7 @@ public class StartMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clickSound.play();
+				bgMusic.close();
 				MultiPlayerGame window = new MultiPlayerGame();
 				CloseMenu();
 				window.setVisible(true);

@@ -3,6 +3,7 @@ package pl.edu.pw.fizyka.pojava.ArcherTheGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -20,12 +21,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 public class MultiPlayerGame extends JFrame {
 	
 	JLabel player1Label, player2Label,vsLabel;
 	JPanel topPanel, bottomPanel, shootPanel1, shootPanel2;
 	JButton exitButton, optionsButton;
-	JTextField shotStrength, shotAngle, shotStrength1, shotAngle1;
+	JLabel  shotAngleValue1, shotForceValue1, shotAngleValue2, shotForceValue2;
+	JLabel angleLabel1, angleLabel2, forceLabel1, forceLabel2;
 	PlayArea centrePanel;
 	Image im;
 	
@@ -35,7 +38,7 @@ public class MultiPlayerGame extends JFrame {
 
 	public MultiPlayerGame() throws HeadlessException {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(600,600);
+		setSize(1000, 600);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
@@ -53,25 +56,30 @@ public class MultiPlayerGame extends JFrame {
 		player2Label.setFont(new Font("Serif", Font.PLAIN, 30));
 		topPanel.add(player2Label);
 		
-		//--------Bottom-------
-		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
-		shotAngle = new JTextField("Kat");
-		shotStrength = new JTextField("Sila");
-		shotAngle1 = new JTextField("Kat");
-		shotStrength1 = new JTextField("Sila");
-		optionsButton = new JButton("Opcje");
-		exitButton = new JButton("Wyjscie");
+		//---BottomPanel---
+		add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
+		bottomPanel.setLayout(new FlowLayout());
+		shotAngleValue1 = new JLabel("000");
+		shotForceValue1 = new JLabel("000");
+		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
+		bottomPanel.add(shotAngleValue1);
+		bottomPanel.add(angleLabel2 = new JLabel("°"));
+		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
+		bottomPanel.add(shotForceValue1);
+		bottomPanel.add(forceLabel2 = new JLabel("%"));
 		
-		exitButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				StartMenu window = new StartMenu();
-				CloseMP();
-				window.setVisible(true);				
-			}			
-		});
+		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
+		
+		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
+		shotAngleValue2 = new JLabel("000");
+		shotForceValue2 = new JLabel("000");
+		bottomPanel.add(shotAngleValue2);
+		bottomPanel.add(angleLabel2 = new JLabel("°"));
+		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
+		bottomPanel.add(shotForceValue2);
+		bottomPanel.add(forceLabel2 = new JLabel("%"));
 		//temp
+		optionsButton = new JButton("Options");
 		optionsButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -80,27 +88,15 @@ public class MultiPlayerGame extends JFrame {
 			}			
 		});
 		//temp*
-		bottomPanel.add(shotAngle);
-		bottomPanel.add(shotStrength);		
-		bottomPanel.add(optionsButton);
-		bottomPanel.add(exitButton);
-		bottomPanel.add(shotAngle1);
-		bottomPanel.add(shotStrength1);
 		
-		//------------Centre---
-		URL resource = getClass().getResource("/images/1.PNG");
-		try {
-			 im = ImageIO.read(resource);
-			} 
-		catch (IOException e) {
-			 System.err.println("Blad odczytu obrazka");
-			 e.printStackTrace();
-			}
-				
-		PlayArea centrePanel = new PlayArea(im, shotAngle, shotStrength, 1);
-		this.add(centrePanel);
-		centrePanel.setBackground(Color.WHITE);
-		centrePanel.setSize(400, 400);
+		bottomPanel.add(optionsButton);
+		exitButton = new JButton("Exit");
+		bottomPanel.add(exitButton);
+
+		//---CentrePanel
+		add(centrePanel = new PlayArea(shotAngleValue1, shotForceValue1,
+				shotAngleValue2, shotForceValue2, MultiPlayerGame.this), BorderLayout.CENTER);
+		
 	}
 
 	

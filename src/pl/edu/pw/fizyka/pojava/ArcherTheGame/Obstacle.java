@@ -11,11 +11,12 @@ public class Obstacle implements Runnable{
 	int velocity, yVelocity;
 	BufferedImage obstackeImage;
 	JPanel panel;
+	AudioPlayer hitSound;
 	
 	public Obstacle(JPanel panel) {
 		this.panel = panel;
 		xPos = 465;
-		yPos = 300;
+		yPos = 270;
 		velocity = 1;
 		yVelocity = 1;
 		
@@ -27,12 +28,13 @@ public class Obstacle implements Runnable{
 		}
 		lenght = (int) (obstackeImage.getHeight()*0.3);
 		width = (int) (obstackeImage.getWidth()*0.3);
+		hitSound = new AudioPlayer("/audio/obstacleHit.mp3");
 	}
 	public void drawObstacle(Graphics2D g2d) {
 		g2d.drawImage(obstackeImage, (int) xPos, (int) yPos, width, lenght, null);
 	}
-	public int getPos() {
-		return yPos;
+	public void hit() {
+		hitSound.play();
 	}
 	@Override
 	public void run() {

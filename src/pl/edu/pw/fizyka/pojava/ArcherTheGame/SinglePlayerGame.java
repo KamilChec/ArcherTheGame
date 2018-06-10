@@ -28,13 +28,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 public class SinglePlayerGame extends JFrame{
 	
-	JLabel player1Label, sILabel, vsLabel, angleLabel1, angleLabel2, forceLabel1, forceLabel2  ;
+	JLabel player1Label, aiLabel, vsLabel, angleLabel1, angleLabel2, forceLabel1, forceLabel2, shotAngleValue, shotForceValue;
 	JPanel topPanel, bottomPanel;
 	PlayArea centrePanel;
 	JButton exitButton, optionsButton, tempButton;
-	JTextField shotStrength, shotAngle;
+//	JTextField shotStrength, shotAngle;
 	static int temp=1;
 	DataHolder hold;
 	static Image im;
@@ -67,22 +68,22 @@ public class SinglePlayerGame extends JFrame{
 		vsLabel.setFont(maken);
 		topPanel.add(vsLabel);
 		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
-		sILabel = new JLabel("AI");	
-		sILabel.setFont(maken);
-		topPanel.add(sILabel);
+		aiLabel = new JLabel("AI");	
+		aiLabel.setFont(maken);
+		topPanel.add(aiLabel);
 		
 		
 		
 		//--------Bottom-------
 		this.add(bottomPanel = new JPanel(), BorderLayout.PAGE_END);
 		bottomPanel.setLayout(new FlowLayout());
-		shotAngle = new JTextField("000");
-		shotStrength = new JTextField("000");
+		shotAngleValue = new JLabel("000");
+		shotForceValue = new JLabel("000");
 		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
-		bottomPanel.add(shotAngle);
+		bottomPanel.add(shotAngleValue);
 		bottomPanel.add(angleLabel2 = new JLabel("°"));
 		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
-		bottomPanel.add(shotStrength);
+		bottomPanel.add(shotForceValue);
 		bottomPanel.add(forceLabel2 = new JLabel("%"));
 //		bottomPanel.add(Box.createRigidArea(new Dimension(10,0)));
 		optionsButton = new JButton("Option");
@@ -120,45 +121,41 @@ public class SinglePlayerGame extends JFrame{
 		});
 			
 		
-		//------------Centre---//
-		URL resource = getClass().getResource("/images/1.PNG");
-		try {
-			 im = ImageIO.read(resource);
-			} 
-		catch (IOException e) {
-			 System.err.println("Blad odczytu obrazka");
-			 e.printStackTrace();
-			}
+		//------------Centre---
+//		URL resource = getClass().getResource("/images/1.PNG");
+//		try {
+//			 im = ImageIO.read(resource);
+//			} 
+//		catch (IOException e) {
+//			 System.err.println("Blad odczytu obrazka");
+//			 e.printStackTrace();
+//			}
 		
 		
-		PlayArea centrePanel = new PlayArea(im, shotAngle, shotStrength, 0);
-		centrePanel.setBackground(Color.WHITE);
-		centrePanel.setSize(400, 400);
-		
-		this.add(centrePanel);
+		add(centrePanel = new PlayArea(shotAngleValue, shotForceValue, SinglePlayerGame.this), BorderLayout.CENTER);
 		
 		
-		tempButton.addActionListener(new ActionListener()
-		{
+		
+		tempButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				centrePanel.g=hold.g;
-				centrePanel.ro=hold.ro;
-				centrePanel.mass=hold.mass;
-				centrePanel.diameter=hold.diameter;
-				centrePanel.coeff=hold.coeff;
-				centrePanel.a=centrePanel.coeff*centrePanel.ro*centrePanel.mass*centrePanel.diameter;
-
-				System.out.println("g " + Double.toString(hold.g));
-				System.out.println("ro " +Double.toString(hold.ro));
-				System.out.println("mass " +Double.toString(hold.mass));
-				System.out.println("diameter " +Double.toString(hold.diameter));
-				System.out.println("coeff " +Double.toString(hold.coeff));
-				
-				centrePanel.cons=1;
-				centrePanel.xPos = 200;
-				centrePanel.yPos = 350;
-						
+//				centrePanel.g=hold.g;
+//				centrePanel.ro=hold.ro;
+//				centrePanel.mass=hold.mass;
+//				centrePanel.diameter=hold.diameter;
+//				centrePanel.coeff=hold.coeff;
+//				centrePanel.a=centrePanel.coeff*centrePanel.ro*centrePanel.mass*centrePanel.diameter;
+//
+//				System.out.println("g " + Double.toString(hold.g));
+//				System.out.println("ro " +Double.toString(hold.ro));
+//				System.out.println("mass " +Double.toString(hold.mass));
+//				System.out.println("diameter " +Double.toString(hold.diameter));
+//				System.out.println("coeff " +Double.toString(hold.coeff));
+//				
+//				centrePanel.cons=1;
+//				centrePanel.xPos = 200;
+//				centrePanel.yPos = 350;
+//						
 			}			
 		});
 		MouseListener buttonListener = new MouseAdapter() {
