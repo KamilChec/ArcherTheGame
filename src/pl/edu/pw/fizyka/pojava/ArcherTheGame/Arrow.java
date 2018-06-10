@@ -65,10 +65,7 @@ public class Arrow implements Runnable {
 		diameter = 0.1;
 		mass = 0.1;
 		a = coeff*diameter*ro*mass;
-		v0 = force;		
-		
-		wind=0;
-		wind1=0;
+		v0 = force*1.4;					
 		
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -105,7 +102,13 @@ public class Arrow implements Runnable {
 		}
 		yPos -= vy*time;
 		
-		dVx = a*vx*time/mass + wind/70;
+		if(multiplayer) {
+			dVx = a*vx*time/mass - wind/10;
+		} else { 
+			dVx = a*vx*time/mass + wind/10;
+		}
+		
+		//dVx = a*vx*time/mass + wind/10;
 		dVy = a*vy*time/mass + g*time;
 
 		vx -= dVx;

@@ -83,6 +83,7 @@ public class MultiPlayerGame extends JFrame {
 		bottomPanel.add(forceLabel2 = new JLabel("%"));
 		//temp
 		optionsButton = new JButton("Options");
+		exitButton = new JButton("Exit");
 		optionsButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -92,12 +93,21 @@ public class MultiPlayerGame extends JFrame {
 				
 			}			
 		});
-		//temp*
+		exitButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StartMenu window = new StartMenu();
+				CloseMP();
+				window.setVisible(true);
+
+			}			
+		});
 		
 		
 		
 		bottomPanel.add(optionsButton);
-		exitButton = new JButton("Exit");
+		
 		bottomPanel.add(exitButton);
 
 		//---CentrePanel

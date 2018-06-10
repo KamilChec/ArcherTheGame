@@ -104,9 +104,7 @@ public class PlayArea extends JPanel {
 				shot = true;
 				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind);
 							
-				setWind();				
-				
-				
+				setWind();
 				arrow.diameter=currentGame.hold.diameter;
 				arrow.mass=currentGame.hold.mass;
 				arrow.coeff=currentGame.hold.coeff;
@@ -145,14 +143,33 @@ public class PlayArea extends JPanel {
 		obstacle = new Obstacle(this);
 		arrows1 = new ArrayList<Arrow>();
 		arrows2 = new ArrayList<Arrow>();
+		
+		
+		windLabel=new JLabel();
+		windLabel.setAlignmentX(980);
+		windLabel.setAlignmentY(10);
+		this.add(windLabel);
+		setWind();
+		
 		try {
 			backgroundImage = ImageIO.read(getClass().getResource("/images/gameBackground2.png"));
 			tagImage = ImageIO.read(getClass().getResource("/images/tag.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			windArrow = ImageIO.read(getClass().getResource("/images/windArrow.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow1 = ImageIO.read(getClass().getResource("/images/windArrow1.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
 		tagWidth = (int) (tagImage.getWidth()*0.2);
 		tagLenght = (int) (tagImage.getHeight()*0.2);
+		
 		
 		ExecutorService exec = Executors.newSingleThreadExecutor();
 		exec.execute(obstacle);
@@ -171,7 +188,7 @@ public class PlayArea extends JPanel {
 				shot = true;
 				if((turn % 2) == 0) {
 					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind);
-					
+					setWind();
 					
 					arrow.diameter=currentGame.hold.diameter;
 					arrow.mass=currentGame.hold.mass;
@@ -186,7 +203,7 @@ public class PlayArea extends JPanel {
 					
 				} else {
 					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, multiplayer, wind);
-					
+					setWind();
 					
 					arrow.diameter=currentGame.hold.diameter;
 					arrow.mass=currentGame.hold.mass;
