@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 
 public class Player {
-	int health = 1;
+	int health = 6;
 	int damage;
 	int xPos;
 	int yPos;

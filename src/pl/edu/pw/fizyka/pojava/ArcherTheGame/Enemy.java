@@ -13,7 +13,7 @@ public class Enemy implements Runnable {
 	
 	int xPos, yPos;
 	int yVelocity, xVelocity;
-	volatile int health = 1;
+	volatile int health = 6;
 	List<BufferedImage> beeImages;
 	List<BufferedImage> healthImages;
 	int imageIndex = 0;

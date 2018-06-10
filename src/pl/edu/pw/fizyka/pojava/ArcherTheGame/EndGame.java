@@ -46,7 +46,7 @@ public class EndGame extends JFrame {
 			winnerLabel.setText("Player 2 won!");
 		}
 		center.add(winnerLabel);
-		
+		currentGame.setEnabled(false);
 		BtnListener listener = new BtnListener();
 		add(bottom = new JPanel(), BorderLayout.PAGE_END);
 		bottom.add(continueBtnMulti = new JButton("Play again"));
@@ -66,7 +66,7 @@ public class EndGame extends JFrame {
 		this.enemy = enemy;
 		this.currentGame = currentGame;
 		
-		
+		currentGame.setEnabled(false);
 		add(center = new JPanel(), BorderLayout.CENTER);
 		BtnListener listener = new BtnListener();
 		winnerLabel = new JLabel("You won!");
