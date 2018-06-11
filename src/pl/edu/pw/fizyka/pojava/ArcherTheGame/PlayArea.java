@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,6 +41,8 @@ public class PlayArea extends JPanel {
 	boolean multiplayer = false;
 	Point startPoint, endPoint;
 	BufferedImage backgroundImage, tagImage, windArrow, windArrow1, windArrow3, windArrow4, windArrow5, windArrow6, windArrow7, windArrow8;
+	
+	
 	
 	Arrow arrow;
 	Obstacle obstacle;
@@ -71,51 +74,11 @@ public class PlayArea extends JPanel {
 		
 		try {
 			backgroundImage = ImageIO.read(getClass().getResource("/images/gameBackground2.png"));
+			tagImage = ImageIO.read(getClass().getResource("/images/tag.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		try {
-			windArrow = ImageIO.read(getClass().getResource("/images/windArrow.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow1 = ImageIO.read(getClass().getResource("/images/windArrow1.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}		
-		try {
-			windArrow3 = ImageIO.read(getClass().getResource("/images/windArrow3.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow4 = ImageIO.read(getClass().getResource("/images/windArrow4.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow5 = ImageIO.read(getClass().getResource("/images/windArrow5.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow6 = ImageIO.read(getClass().getResource("/images/windArrow6.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow7 = ImageIO.read(getClass().getResource("/images/windArrow7.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow8 = ImageIO.read(getClass().getResource("/images/windArrow8.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-
 		
 		ExecutorService exec = Executors.newFixedThreadPool(2);
 		exec.execute(enemy);
@@ -185,46 +148,7 @@ public class PlayArea extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			windArrow = ImageIO.read(getClass().getResource("/images/windArrow.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow1 = ImageIO.read(getClass().getResource("/images/windArrow1.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow3 = ImageIO.read(getClass().getResource("/images/windArrow3.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow4 = ImageIO.read(getClass().getResource("/images/windArrow4.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow5 = ImageIO.read(getClass().getResource("/images/windArrow5.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow6 = ImageIO.read(getClass().getResource("/images/windArrow6.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow7 = ImageIO.read(getClass().getResource("/images/windArrow7.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		try {
-			windArrow8 = ImageIO.read(getClass().getResource("/images/windArrow8.png"));
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
+		
 		
 		
 		tagWidth = (int) (tagImage.getWidth()*0.2);
@@ -359,6 +283,67 @@ public class PlayArea extends JPanel {
 		windLabel.setText(Double.toString(Math.round(Math.abs(wind*10))));
 		windAlpha = r.nextInt(180)-90;
 		
+		if(windAlpha<10 && windAlpha>-10 && wind>0) {
+			ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(40, 10,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    else if(windAlpha<-10 && windAlpha>-80 && wind>0) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow3.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    else if(windAlpha<80 && windAlpha>10 && wind>0) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow8.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    
+	    
+	    else if(windAlpha<10 && windAlpha>-10 && wind<0) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow1.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(40, 10,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    else if(windAlpha<-10 && windAlpha>-80 && wind<0) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow5.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    else if(windAlpha<80 && windAlpha>10 && wind<0) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow6.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    
+	    
+	    else if(windAlpha<-80) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow4.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(10, 40,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+	    else if(windAlpha<80) {
+	    	ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/windArrow7.png"));		
+			Image image = imageIcon.getImage();
+			Image newimg = image.getScaledInstance(10, 40,  java.awt.Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(newimg);
+			windLabel.setIcon(imageIcon);
+	    }
+		
 	}
 	
 	
@@ -390,45 +375,11 @@ public class PlayArea extends JPanel {
 	    Graphics2D g2d = (Graphics2D)g;
 	    g2d.setColor(Color.BLACK);
 	    
-	    
-	    
 	    if(multiplayer) {
 	    	g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 	    } else {
 	    	g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 	    }
-	    
-	    if(windAlpha<10 && windAlpha>-10 && wind>0) {
-	    	 g2d.drawImage(windArrow, 475, 0, 40, 10, this);
-	    }
-	    else if(windAlpha<-10 && windAlpha>-80 && wind>0) {
-	    	 g2d.drawImage(windArrow3, 480, 0, 30, 30, this);
-	    }
-	    else if(windAlpha<80 && windAlpha>10 && wind>0) {
-	    	 g2d.drawImage(windArrow8, 480, 0, 30, 30, this);
-	    }
-	    
-	    
-	    else if(windAlpha<10 && windAlpha>-10 && wind<0) {
-	    	 g2d.drawImage(windArrow1, 475, 0, 40, 10, this);
-	    }
-	    else if(windAlpha<-10 && windAlpha>-80 && wind<0) {
-	    	 g2d.drawImage(windArrow5, 480, 0, 30, 30, this);
-	    }
-	    else if(windAlpha<80 && windAlpha>10 && wind<0) {
-	    	 g2d.drawImage(windArrow6, 480, 0, 30, 30, this);
-	    }
-	    
-	    
-	    else if(windAlpha<-80) {
-	    	 g2d.drawImage(windArrow4, 495, 0, 10, 40, this);
-	    }
-	    else if(windAlpha<80) {
-	    	 g2d.drawImage(windArrow7, 495, 0, 10, 40, this);
-	    }
-	    
-	    
-	    
 	    
 	    
 	    
