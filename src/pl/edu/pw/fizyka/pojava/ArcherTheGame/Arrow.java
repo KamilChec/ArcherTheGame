@@ -19,7 +19,7 @@ public class Arrow implements Runnable {
 	BufferedImage arrowImage1;
 	BufferedImage arrowImage2;
 	
-	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force, wind, wind1;
+	double xPos, yPos, vx, vy, dVx, dVy, alpha, beta, gamma, a, v0, g, ro, diameter, mass, coeff, force, wind, windAlpha;
 	int width, length, arrowWidth, arrowLength;
 	int obstacleVelocity = 0;
 	int enemyXVelocity = 0;
@@ -40,7 +40,7 @@ public class Arrow implements Runnable {
 	Obstacle obstacle;
 	Enemy enemy;
 	
-	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos,  boolean multiplayer, double wind) {
+	public Arrow(JPanel panel, double alpha, int force, double xPos, double yPos,  boolean multiplayer, double wind, double windAlpha) {
 		obstacle = new Obstacle(panel);
 		enemy = new Enemy(panel);
 		this.alpha = alpha;
@@ -49,6 +49,7 @@ public class Arrow implements Runnable {
 		width = panel.getWidth();
 		length = panel.getHeight();
 		this.wind=wind;
+		this.windAlpha=windAlpha;
 		
 		if(counter % 5 == 0)
 		{
@@ -103,14 +104,18 @@ public class Arrow implements Runnable {
 		yPos -= vy*time;
 		
 		if(multiplayer) {
-			dVx = a*vx*time/mass - wind/10;
-		} else { 
-			dVx = a*vx*time/mass + wind/10;
+			dVx = a*vx*time/mass + Math.cos(Math.toRadians(windAlpha))*wind/10;
+		} else {
+			dVx = a*vx*time/mass - Math.cos(Math.toRadians(windAlpha))*wind/10;			
+		}
+		if(wind>0)
+		{
+			dVy = a*vy*time/mass + g*time - Math.sin(Math.toRadians(windAlpha))*wind/10;
+		}
+		else if(wind<0) {
+			dVy = a*vy*time/mass + g*time + Math.sin(Math.toRadians(windAlpha))*wind/10;	
 		}
 		
-		//dVx = a*vx*time/mass + wind/10;
-		dVy = a*vy*time/mass + g*time;
-
 		vx -= dVx;
 		vy -= dVy;
 	}

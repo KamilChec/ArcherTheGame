@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 public class PlayArea extends JPanel {
 	Player player;
 	Player player1, player2;
-	double alpha, force, wind;
+	double alpha, force, wind, windAlpha;
 	int turn = 0;
 	int tagWidth, tagLenght;
 	int tagIndex = 0;
@@ -39,7 +39,7 @@ public class PlayArea extends JPanel {
 	boolean drawobstacle = false;
 	boolean multiplayer = false;
 	Point startPoint, endPoint;
-	BufferedImage backgroundImage, tagImage, windArrow, windArrow1;
+	BufferedImage backgroundImage, tagImage, windArrow, windArrow1, windArrow3, windArrow4, windArrow5, windArrow6, windArrow7, windArrow8;
 	
 	Arrow arrow;
 	Obstacle obstacle;
@@ -84,6 +84,36 @@ public class PlayArea extends JPanel {
 			windArrow1 = ImageIO.read(getClass().getResource("/images/windArrow1.png"));
 		} catch (IOException e1) {			
 			e1.printStackTrace();
+		}		
+		try {
+			windArrow3 = ImageIO.read(getClass().getResource("/images/windArrow3.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow4 = ImageIO.read(getClass().getResource("/images/windArrow4.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow5 = ImageIO.read(getClass().getResource("/images/windArrow5.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow6 = ImageIO.read(getClass().getResource("/images/windArrow6.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow7 = ImageIO.read(getClass().getResource("/images/windArrow7.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow8 = ImageIO.read(getClass().getResource("/images/windArrow8.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
 		}
 
 		
@@ -102,7 +132,7 @@ public class PlayArea extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				whenDraw = false;
 				shot = true;
-				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind);
+				arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind, windAlpha);
 							
 				setWind();
 				arrow.diameter=currentGame.hold.diameter;
@@ -145,9 +175,7 @@ public class PlayArea extends JPanel {
 		arrows2 = new ArrayList<Arrow>();
 		
 		
-		windLabel=new JLabel();
-		windLabel.setAlignmentX(980);
-		windLabel.setAlignmentY(10);
+		windLabel=new JLabel();	
 		this.add(windLabel);
 		setWind();
 		
@@ -167,6 +195,38 @@ public class PlayArea extends JPanel {
 		} catch (IOException e1) {			
 			e1.printStackTrace();
 		}
+		try {
+			windArrow3 = ImageIO.read(getClass().getResource("/images/windArrow3.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow4 = ImageIO.read(getClass().getResource("/images/windArrow4.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow5 = ImageIO.read(getClass().getResource("/images/windArrow5.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow6 = ImageIO.read(getClass().getResource("/images/windArrow6.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow7 = ImageIO.read(getClass().getResource("/images/windArrow7.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		try {
+			windArrow8 = ImageIO.read(getClass().getResource("/images/windArrow8.png"));
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		
+		
 		tagWidth = (int) (tagImage.getWidth()*0.2);
 		tagLenght = (int) (tagImage.getHeight()*0.2);
 		
@@ -187,7 +247,7 @@ public class PlayArea extends JPanel {
 				whenDraw = false;
 				shot = true;
 				if((turn % 2) == 0) {
-					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind);
+					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, false, wind, windAlpha);
 					setWind();
 					
 					arrow.diameter=currentGame.hold.diameter;
@@ -202,7 +262,7 @@ public class PlayArea extends JPanel {
 					arrows1.add(arrow);
 					
 				} else {
-					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, multiplayer, wind);
+					arrow = new Arrow(PlayArea.this, alpha, forceToPower(force), arrowStartPos(alpha).x, arrowStartPos(alpha).y, multiplayer, wind, windAlpha);
 					setWind();
 					
 					arrow.diameter=currentGame.hold.diameter;
@@ -297,6 +357,7 @@ public class PlayArea extends JPanel {
 		Random r = new Random();
 		wind=r.nextDouble()+r.nextDouble()-1;
 		windLabel.setText(Double.toString(Math.round(Math.abs(wind*10))));
+		windAlpha = r.nextInt(180)-90;
 		
 	}
 	
@@ -337,12 +398,33 @@ public class PlayArea extends JPanel {
 	    	g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 	    }
 	    
-	    if(wind<0) {
+	    if(windAlpha<10 && windAlpha>-10 && wind>0) {
 	    	 g2d.drawImage(windArrow, 475, 0, 40, 10, this);
 	    }
-	    else if(wind>0)
-	    {
-	    	g2d.drawImage(windArrow1, 475, 0, 40, 10, this);
+	    else if(windAlpha<-10 && windAlpha>-80 && wind>0) {
+	    	 g2d.drawImage(windArrow3, 480, 0, 30, 30, this);
+	    }
+	    else if(windAlpha<80 && windAlpha>10 && wind>0) {
+	    	 g2d.drawImage(windArrow8, 480, 0, 30, 30, this);
+	    }
+	    
+	    
+	    else if(windAlpha<10 && windAlpha>-10 && wind<0) {
+	    	 g2d.drawImage(windArrow1, 475, 0, 40, 10, this);
+	    }
+	    else if(windAlpha<-10 && windAlpha>-80 && wind<0) {
+	    	 g2d.drawImage(windArrow5, 480, 0, 30, 30, this);
+	    }
+	    else if(windAlpha<80 && windAlpha>10 && wind<0) {
+	    	 g2d.drawImage(windArrow6, 480, 0, 30, 30, this);
+	    }
+	    
+	    
+	    else if(windAlpha<-80) {
+	    	 g2d.drawImage(windArrow4, 495, 0, 10, 40, this);
+	    }
+	    else if(windAlpha<80) {
+	    	 g2d.drawImage(windArrow7, 495, 0, 10, 40, this);
 	    }
 	    
 	    
