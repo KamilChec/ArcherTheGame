@@ -111,6 +111,9 @@ public class StartMenu extends JFrame {
 				SinglePlayerGame window = new SinglePlayerGame();
 				CloseMenu();
 				window.setVisible(true);
+				
+				Tutorial tut = new Tutorial();
+				tut.setVisible(true);
 			}
 			
 			
