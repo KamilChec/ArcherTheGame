@@ -23,6 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class StartMenu extends JFrame {
@@ -42,7 +44,7 @@ public class StartMenu extends JFrame {
 	Boolean drawLine3= false;
 	
 	public void CloseMenu() {
-		super.dispose();
+		this.dispose();
 	}
 	
 	public StartMenu() {
@@ -184,6 +186,7 @@ public class StartMenu extends JFrame {
 
 
 	public static void main(String[] args) {
+		
 		StartMenu menu = new StartMenu();
 		menu.setVisible(true);
 		
