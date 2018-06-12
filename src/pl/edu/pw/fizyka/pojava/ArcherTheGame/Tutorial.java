@@ -19,12 +19,14 @@ public class Tutorial extends JFrame {
 	JPanel imagePain, bottom;
 	
 	Tutorial(){
-		this.setSize(1000, 482);
+		this.setSize(1000, 500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setResizable(false);	
 		setLocationRelativeTo(null);
 		setUndecorated(true);
 		setLayout(new BorderLayout());
+		this.setResizable(false);
+		this.setLayout(new BorderLayout());
 		
 		imagePain = new JPanel() {
 			@Override
@@ -50,7 +52,10 @@ public class Tutorial extends JFrame {
 				}
 	        	
 	        });
-	        		
+	}
+	
+	public void CloseTutorial() {
+		this.dispose();
 	}
 	
 

@@ -29,6 +29,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 
 
+
 public class StartMenu extends JFrame {
 	Dimension dimension;
 	AudioPlayer bgMusic, clickSound;
@@ -46,7 +47,7 @@ public class StartMenu extends JFrame {
 	Boolean drawLine3= false;
 	
 	public void CloseMenu() {
-		super.dispose();
+		this.dispose();
 	}
 	
 	public StartMenu() {
@@ -195,7 +196,6 @@ public class StartMenu extends JFrame {
 			}
 			
 		});
-
 	}
 
 }
