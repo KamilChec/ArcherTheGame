@@ -93,11 +93,9 @@ public class StartMenu extends JFrame {
 			e.printStackTrace();
 		}
 		heading.setFont(new Font("101! Block LetterZ", Font.BOLD, 40));
-//		heading.setForeground(Color.red);
 		startButton = new JButton("Single player");
 		startButton.setFont(new Font("MAKEN", Font.BOLD, 30));
 		startButton.setBorderPainted(false);
-//		startButton.setForeground(Color.blue);
 		startButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent event) {
 				drawLine1 = true;

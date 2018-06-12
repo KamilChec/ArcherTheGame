@@ -121,6 +121,4 @@ public class Player {
 		else if(angle >= 45 && angle <= 80)  drawPlayer(g2d, fourthArea, power);
 		else if(angle > 80 && angle <= 180)	 drawPlayer(g2d, fifthArea, power);
 	}
-	
-
 }

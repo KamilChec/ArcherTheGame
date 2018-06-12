@@ -30,7 +30,6 @@ public class MultiPlayerGame extends JFrame {
 	JLabel angleLabel1, angleLabel2, forceLabel1, forceLabel2;
 	PlayArea centrePanel;
 	Font maken;
-	Image im;
 	DataHolder hold;	
 	OptionsWindow options;
 	
@@ -114,7 +113,7 @@ public class MultiPlayerGame extends JFrame {
 			}			
 		});
 
-		//---CentrePanel
+		//---CentrePanel---
 		add(centrePanel = new PlayArea(shotAngleValue1, shotForceValue1,
 				shotAngleValue2, shotForceValue2, MultiPlayerGame.this), BorderLayout.CENTER);
 		
