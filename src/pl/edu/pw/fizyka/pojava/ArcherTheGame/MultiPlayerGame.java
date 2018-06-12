@@ -66,7 +66,7 @@ public class MultiPlayerGame extends JFrame {
 		shotForceValue1 = new JLabel("000");
 		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
 		bottomPanel.add(shotAngleValue1);
-		bottomPanel.add(angleLabel2 = new JLabel("Â°"));
+		bottomPanel.add(angleLabel2 = new JLabel("°"));
 		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
 		bottomPanel.add(shotForceValue1);
 		bottomPanel.add(forceLabel2 = new JLabel("%"));

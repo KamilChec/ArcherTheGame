@@ -47,7 +47,7 @@ public class StartMenu extends JFrame {
 	Boolean drawLine3= false;
 	
 	public void CloseMenu() {
-		this.dispose();
+		StartMenu.this.dispose();
 	}
 	
 	public StartMenu() {
@@ -111,11 +111,11 @@ public class StartMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				bgMusic.close();
 				clickSound.play();
-				SinglePlayerGame window = new SinglePlayerGame();
+//				SinglePlayerGame window = new SinglePlayerGame();
 				CloseMenu();
-				window.setVisible(true);
+//				window.setVisible(true);
 				
-				Tutorial tut = new Tutorial();
+				Tutorial tut = new Tutorial(0);
 				tut.setVisible(true);
 			}
 			
@@ -138,9 +138,12 @@ public class StartMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				clickSound.play();
 				bgMusic.close();
-				MultiPlayerGame window = new MultiPlayerGame();
+				//MultiPlayerGame window = new MultiPlayerGame();
 				CloseMenu();
-				window.setVisible(true);
+				//window.setVisible(true);
+				
+				Tutorial tut = new Tutorial(1);
+				tut.setVisible(true);
 			}
 			
 		});
@@ -187,6 +190,7 @@ public class StartMenu extends JFrame {
 
 
 	public static void main(String[] args) {
+		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override

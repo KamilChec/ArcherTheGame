@@ -17,8 +17,9 @@ public class Tutorial extends JFrame {
 	BufferedImage im;
 	JButton continueBtn;
 	JPanel imagePain, bottom;
+	static int mode;
 	
-	Tutorial(){
+	Tutorial(int mode){
 		this.setSize(1000, 500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setResizable(false);	
@@ -27,6 +28,7 @@ public class Tutorial extends JFrame {
 		setLayout(new BorderLayout());
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
+		this.mode=mode;
 		
 		imagePain = new JPanel() {
 			@Override
@@ -48,14 +50,26 @@ public class Tutorial extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Tutorial.this.dispose();
+					
+					if(mode==0)
+					{
+						SinglePlayerGame window = new SinglePlayerGame();
+						CloseTutorial();
+						window.setVisible(true);
+					}
+					else if(mode==1)
+					{
+						MultiPlayerGame window = new MultiPlayerGame();
+						CloseTutorial();
+						window.setVisible(true);
+					}
 				}
 	        	
 	        });
 	}
 	
 	public void CloseTutorial() {
-		this.dispose();
+		Tutorial.this.dispose();
 	}
 	
 
