@@ -39,11 +39,9 @@ public class Player {
 		fifthArea = new ArrayList<BufferedImage>();
 		healthImages = new ArrayList<BufferedImage>();
 		if(multiplayer) {
-//			xPos = (int) (panel.getWidth()*0.8);
-			xPos = 700;
+			xPos = 800;
 		} else {
-//			xPos = (int) (panel.getWidth()*0.2); 
-			xPos = 150;
+			xPos = 80;
 		}
 		yPos = 270;
 	

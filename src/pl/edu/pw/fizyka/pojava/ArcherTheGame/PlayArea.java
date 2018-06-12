@@ -137,7 +137,6 @@ public class PlayArea extends JPanel {
 		arrows1 = new ArrayList<Arrow>();
 		arrows2 = new ArrayList<Arrow>();
 		
-		
 		windLabel=new JLabel();	
 		this.add(windLabel);
 		setWind();
@@ -380,15 +379,10 @@ public class PlayArea extends JPanel {
 	    } else {
 	    	g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 	    }
-	    
-	    
-	    
-//	    g2d.drawImage(targetImage, 750, 250, 111, 168, this);
 		if(whenDraw) {
 			g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 			g.drawOval(startPoint.x - 10, startPoint.y - 10, 20, 20);
 		}
-//		player.drawPlayer(g2d, player.firstArea, forceToPower(force));
 		if(multiplayer) {
 			if((turn % 2) == 0) {
 				g2d.drawImage(tagImage, player1.xPos + player1.width/2 - 20, player1.yPos - 60, tagWidth, tagLenght, this);
@@ -405,6 +399,14 @@ public class PlayArea extends JPanel {
 		if(multiplayer) {
 			for(Arrow arrow : arrows1) {
 				arrow.drawArrow(g2d);
+				if((arrow.xPos  > obstacle.xPos - 15 && arrow.xPos < obstacle.xPos + obstacle.width) &&
+						(arrow.yPos < obstacle.yPos + obstacle.lenght && arrow.yPos > obstacle.yPos - 5)) {
+					if(arrow.hit) {
+						obstacle.hit();
+					}
+					arrow.hit = false;
+					arrow.stuckedArrow(obstacle.yVelocity);
+				}
 				if((arrow.xPos > player2.xPos + 50 && arrow.xPos < player2.xPos + player2.width - 50) &&
 						(arrow.yPos < player2.yPos + player2.lenght && arrow.yPos > player2.yPos + 50)) {
 					if(arrow.hit) {
@@ -417,11 +419,18 @@ public class PlayArea extends JPanel {
 								endGame.setVisible(true);
 							}
 					}
-//					arrow.stuckedArrow(enemy.xVelocity, enemy.yVelocity);
 				}
 			}
 			for(Arrow arrow : arrows2) {
 				arrow.drawArrow(g2d);
+				if((arrow.xPos  > obstacle.xPos - 15 && arrow.xPos < obstacle.xPos + obstacle.width - 40) &&
+						(arrow.yPos < obstacle.yPos + obstacle.lenght && arrow.yPos > obstacle.yPos - 5)) {
+					if(arrow.hit) {
+						obstacle.hit();
+					}
+					arrow.hit = false;
+					arrow.stuckedArrow(obstacle.yVelocity);
+				}
 				if((arrow.xPos > player1.xPos +20 && arrow.xPos < player1.xPos + player1.width - 80) &&
 						(arrow.yPos < player1.yPos + player1.lenght && arrow.yPos > player1.yPos + 50 )) {
 					if(arrow.hit) {
@@ -466,13 +475,10 @@ public class PlayArea extends JPanel {
 		    enemy.drawHealth(g2d);
 		}
 		if(multiplayer) {
+			obstacle.drawObstacle(g2d);
 			player1.drawHealth(g2d);
 			player2.drawHealth(g2d);
 		}
-//		g2d.drawImage(tagImage, 600, 200 , (int) (tagImage.getWidth()*0.5), (int) (tagImage.getHeight()*0.5), this);
-//		g2d.setColor(Color.blue);
-//		g2d.drawOval(100,300,10,10);
-		
     }
 		
 	

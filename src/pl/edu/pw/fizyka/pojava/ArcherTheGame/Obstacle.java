@@ -15,7 +15,7 @@ public class Obstacle implements Runnable{
 	
 	public Obstacle(JPanel panel) {
 		this.panel = panel;
-		xPos = 465;
+		xPos = 440;
 		yPos = 270;
 		velocity = 1;
 		yVelocity = 1;

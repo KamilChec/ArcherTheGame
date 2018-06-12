@@ -5,21 +5,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 
 public class MultiPlayerGame extends JFrame {
@@ -30,6 +29,7 @@ public class MultiPlayerGame extends JFrame {
 	JLabel  shotAngleValue1, shotForceValue1, shotAngleValue2, shotForceValue2;
 	JLabel angleLabel1, angleLabel2, forceLabel1, forceLabel2;
 	PlayArea centrePanel;
+	Font maken;
 	Image im;
 	DataHolder hold;	
 	OptionsWindow options;
@@ -44,19 +44,20 @@ public class MultiPlayerGame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		hold = new DataHolder();
+		maken = new Font("MAKEN", Font.BOLD, 30);
 		
 		//---------Top-----------
 		this.add(topPanel = new JPanel(), BorderLayout.PAGE_START);		
-		player1Label = new JLabel("Gracz 1");
-		player1Label.setFont(new Font("Serif", Font.PLAIN, 30));
+		player1Label = new JLabel("Player 1");
+		player1Label.setFont(maken);
 		topPanel.add(player1Label);
 		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
 		vsLabel = new JLabel("VS");
-		vsLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+		vsLabel.setFont(maken);
 		topPanel.add(vsLabel);
 		topPanel.add(Box.createRigidArea(new Dimension(50,0)));
-		player2Label = new JLabel("Gracz 2");
-		player2Label.setFont(new Font("Serif", Font.PLAIN, 30));
+		player2Label = new JLabel("Player 2");
+		player2Label.setFont(maken);
 		topPanel.add(player2Label);
 		
 		//---BottomPanel---
@@ -71,7 +72,18 @@ public class MultiPlayerGame extends JFrame {
 		bottomPanel.add(shotForceValue1);
 		bottomPanel.add(forceLabel2 = new JLabel("%"));
 		
-		bottomPanel.add(Box.createRigidArea(new Dimension(150,0)));
+		bottomPanel.add(Box.createRigidArea(new Dimension(100,0)));
+		
+		optionsButton = new JButton("Options");
+		optionsButton.setFont(maken);
+		optionsButton.setBorderPainted(false);
+		exitButton = new JButton("Exit");
+		exitButton.setFont(maken);
+		exitButton.setBorderPainted(false);
+		bottomPanel.add(optionsButton);
+		bottomPanel.add(exitButton);
+		
+		bottomPanel.add(Box.createRigidArea(new Dimension(100,0)));
 		
 		bottomPanel.add(angleLabel1 = new JLabel("Angle:"));
 		shotAngleValue2 = new JLabel("000");
@@ -81,9 +93,7 @@ public class MultiPlayerGame extends JFrame {
 		bottomPanel.add(forceLabel1 = new JLabel("Power:"));
 		bottomPanel.add(shotForceValue2);
 		bottomPanel.add(forceLabel2 = new JLabel("%"));
-		//temp
-		optionsButton = new JButton("Options");
-		exitButton = new JButton("Exit");
+		
 		optionsButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -103,18 +113,26 @@ public class MultiPlayerGame extends JFrame {
 
 			}			
 		});
-		
-		
-		
-		bottomPanel.add(optionsButton);
-		
-		bottomPanel.add(exitButton);
 
 		//---CentrePanel
 		add(centrePanel = new PlayArea(shotAngleValue1, shotForceValue1,
 				shotAngleValue2, shotForceValue2, MultiPlayerGame.this), BorderLayout.CENTER);
 		
+		MouseListener buttonListener = new MouseAdapter() {
+			public void mouseEntered(MouseEvent event) {
+				Object source = event.getSource();
+				((JComponent) source).setForeground(Color.RED);
+			}
+			public void mouseExited(MouseEvent event) {
+				Object source = event.getSource();
+				((JComponent) source).setForeground(Color.BLACK);
+
+			}
+		};
+		optionsButton.addMouseListener(buttonListener);
+		exitButton.addMouseListener(buttonListener);
 	}
+	
 
 	
 
